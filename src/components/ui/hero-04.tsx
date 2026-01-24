@@ -36,7 +36,7 @@ export function HeroSection04() {
                                 <img
                                     src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&auto=format&fit=crop&q=60"
                                     alt="Designer portrait"
-                                    className="h-100 w-full object-contain grayscale"
+                                    className="h-80 w-full object-contain grayscale"
                                 />
                                 <div className="text-left p-2 rotate-180 [writing-mode:vertical-rl] text-xs font-medium tracking-widest">
                                     BASED IN BOKARO STEEL CITY
@@ -48,7 +48,7 @@ export function HeroSection04() {
                         <img
                             src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&auto=format&fit=crop&q=60"
                             alt="Designer portrait"
-                            className="h-100 w-full object-contain grayscale"
+                            className="h-80 w-full object-contain grayscale"
                         />
                         <div className="text-left p-2 rotate-180 [writing-mode:vertical-rl] text-xs font-medium tracking-widest">
                             BASED IN BOKARO STEEL CITY
