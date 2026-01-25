@@ -24,6 +24,8 @@ export function ImageWithSkeleton({
             <img
                 src={src}
                 alt={alt}
+                loading="lazy"
+                decoding="async"
                 className={cn(
                     "transition-opacity duration-500",
                     isLoading ? "opacity-0" : "opacity-100",
