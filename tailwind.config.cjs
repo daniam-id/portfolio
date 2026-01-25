@@ -4,6 +4,10 @@ module.exports = {
     content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
     theme: {
         extend: {
+            fontFamily: {
+                sans: ["var(--font-geist-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
+                mono: ["var(--font-geist-mono)", "ui-monospace", "monospace"],
+            },
             colors: {
                 border: "var(--border)",
                 input: "var(--input)",

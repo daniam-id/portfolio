@@ -14,6 +14,8 @@
     "@aliimam/icons": "^0.1.9",
     "@astrojs/react": "^4.4.2",
     "@astrojs/tailwind": "^6.0.2",
+    "@fontsource/geist-mono": "^5.2.7",
+    "@fontsource/geist-sans": "^5.2.5",
     "@radix-ui/react-slot": "^1.2.4",
     "astro": "^5.16.15",
     "autoprefixer": "^10.4.23",
