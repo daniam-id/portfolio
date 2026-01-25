@@ -15,7 +15,7 @@ const navLinks = [
 export function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
-    const [lastScrollY, setLastScrollY] = useState(0);
+    const lastScrollY = React.useRef(0);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const scrollTimeout = React.useRef<NodeJS.Timeout | null>(null);
 
@@ -31,13 +31,13 @@ export function Navbar() {
             }
 
             // Hide/Show on scroll
-            if (currentScrollY > lastScrollY && currentScrollY > 100) {
+            if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
                 setIsVisible(false);
             } else {
                 setIsVisible(true);
             }
 
-            setLastScrollY(currentScrollY);
+            lastScrollY.current = currentScrollY;
 
             // Auto-show after 1 second of no scrolling
             if (scrollTimeout.current) {
@@ -54,7 +54,7 @@ export function Navbar() {
             window.removeEventListener("scroll", handleScroll);
             if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
         };
-    }, [lastScrollY]);
+    }, []);
 
     return (
         <header
