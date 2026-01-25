@@ -5,15 +5,15 @@ import { Button } from "@/components/ui/button";
 const services = [
     {
         title: "Web Development",
-        description: "Custom websites and web applications built with modern technologies like React, Next.js, and Astro. Fast, responsive, and SEO-friendly.",
+        description: "Frontend development with strong attention to UI, UX, and performance. Full-stack applications built for scalability and maintainability.",
         icon: Code2,
-        features: ["Landing Pages", "Company Profiles", "E-commerce", "Web Applications"]
+        features: ["Web Applications", "Dashboards", "Modern UI/UX", "Responsive Design"]
     },
     {
-        title: "AI Solutions",
-        description: "Leverage the power of Artificial Intelligence to automate your business processes. From custom chatbots to workflow automation.",
+        title: "AI Integration",
+        description: "AI-powered features integrated into web products. I focus on practical solutions that solve real problems, not just gimmicks.",
         icon: Bot,
-        features: ["Custom Chatbots", "Process Automation", "AI Integration", "Data Analysis"]
+        features: ["LLM Integration", "Prompt Engineering", "Workflow Automation", "AI-Powered Tools"]
     }
 ];
 
@@ -23,10 +23,10 @@ export function ServicesSection() {
             <div className="mx-auto max-w-7xl px-6 relative z-20">
                 <div className="mb-16 text-center max-w-3xl mx-auto">
                     <h2 className="text-4xl md:text-6xl font-bold tracking-[-2px] mb-6">
-                        WHAT I DO
+                        WHAT I BUILD
                     </h2>
                     <p className="text-xl text-muted-foreground">
-                        Combining technical expertise with creative problem solving to deliver high-quality digital solutions.
+                        User-first solutions with a focus on usability, automation, and real-world impact.
                     </p>
                 </div>
 

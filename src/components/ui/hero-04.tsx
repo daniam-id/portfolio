@@ -14,13 +14,13 @@ export function HeroSection04() {
                     <h1
                         className={`z-20 text-primary relative font-bold text-center tracking-[-7px] text-7xl md:text-9xl xl:tracking-[-1rem] md:tracking-[-14px] xl:text-[10rem]`}
                     >
-                        CREATIVE DESIGNER
+                        WEB DEVELOPER
                     </h1>
                     <p className="text-4xl hidden xl:block absolute -bottom-12 right-24 font-thin tracking-[6px]">
-                        ALI IMAM
+                        AI ENTHUSIAST
                     </p>
                     <p className="text-4xl absolute xl:hidden -bottom-12 left-24 font-thin tracking-[6px]">
-                        ALI IMAM
+                        AI ENTHUSIAST
                     </p>
                 </div>
 
@@ -28,9 +28,9 @@ export function HeroSection04() {
                     <div className="space-y-8 pt-20 flex gap-6 justify-center">
                         <div className="flex gap-6 bg-secondary w-full max-w-xl h-fit p-10 items-end space-y-2 text-xl font-bold md:text-2xl lg:text-3xl">
                             <div className="font-semibold text-xl">
-                                <div>/ ART DIRECTION</div>
-                                <div>/ WEB DESIGN (UX/UI)</div>
-                                <div>/ WEB DEVELOPMENT</div>
+                                <div>/ FRONTEND DEVELOPMENT</div>
+                                <div>/ FULL-STACK APPLICATIONS</div>
+                                <div>/ AI INTEGRATION</div>
                             </div>
                             <div className="absolute hidden  md:flex left-1/2 -top-10 w-fit overflow-hidden bg-secondary">
                                 <ImageWithSkeleton
@@ -39,7 +39,7 @@ export function HeroSection04() {
                                     className="h-80 w-full object-contain grayscale"
                                 />
                                 <div className="text-left p-2 rotate-180 [writing-mode:vertical-rl] text-xs font-medium tracking-widest">
-                                    BASED IN BOKARO STEEL CITY
+                                    BASED IN INDONESIA
                                 </div>
                             </div>
                         </div>
@@ -51,18 +51,18 @@ export function HeroSection04() {
                             className="h-80 w-full object-contain grayscale"
                         />
                         <div className="text-left p-2 rotate-180 [writing-mode:vertical-rl] text-xs font-medium tracking-widest">
-                            BASED IN BOKARO STEEL CITY
+                            BASED IN INDONESIA
                         </div>
                     </div>
                 </div>
 
                 <div className="md:mt-40 mt-10">
                     <p className="mx-auto max-w-2xl font-mono text-center text-sm font-medium tracking-wide md:text-base">
-                        I'M EXPERIENCED WEB AND UX/UI DESIGNER,
+                        I BUILD MODERN WEB EXPERIENCES AND EXPLORE
                         <br />
-                        WHO DESIGN MEMORABLE WEB EXPERIENCES FOR
+                        HOW AI CAN BE INTEGRATED INTO REAL,
                         <br />
-                        BRANDS OF ALL SIZES
+                        USABLE PRODUCTS
                     </p>
                 </div>
                 <div className="flex justify-center pt-6">

@@ -28,19 +28,18 @@ export function AboutSection() {
 
                         <div className="space-y-6 text-lg md:text-xl font-medium leading-relaxed text-muted-foreground">
                             <p>
-                                Hi, I'm a creative developer based in Indonesia. I bridge the gap between
-                                <span className="text-foreground font-bold"> design</span> and
-                                <span className="text-foreground font-bold"> technology</span>.
+                                Hi, I'm a <span className="text-foreground font-bold">Web Developer</span> and
+                                <span className="text-foreground font-bold"> AI Enthusiast</span> based in Indonesia.
                             </p>
                             <p>
-                                With a background in web development and a passion for AI, I help businesses
-                                build modern digital experiences that are not only visually stunning but also
-                                intelligent and efficient.
+                                I build modern web experiences and explore how AI can be integrated into real,
+                                usable products. My work sits at the intersection of clean web development and
+                                practical AI adoption.
                             </p>
                             <p>
-                                I believe that the future of web is interactive, personalized, and automated.
-                                Whether it's a portfolio, a landing page, or an AI-powered chatbot, I'm here
-                                to bring your vision to life.
+                                I believe technology should solve actual problems, not just be a gimmick.
+                                Whether it's a web application, an internal dashboard, or an AI-powered tool,
+                                I focus on delivering real, measurable outcomes.
                             </p>
                         </div>
 
