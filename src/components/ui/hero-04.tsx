@@ -1,7 +1,7 @@
-/* eslint-disable @next/next/no-img-element */
 import React from "react";
 import { ArrowDownRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ImageWithSkeleton } from "@/components/ui/image-with-skeleton";
 
 export function HeroSection04() {
     return (
@@ -33,7 +33,7 @@ export function HeroSection04() {
                                 <div>/ WEB DEVELOPMENT</div>
                             </div>
                             <div className="absolute hidden  md:flex left-1/2 -top-10 w-fit overflow-hidden bg-secondary">
-                                <img
+                                <ImageWithSkeleton
                                     src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&auto=format&fit=crop&q=60"
                                     alt="Designer portrait"
                                     className="h-80 w-full object-contain grayscale"
@@ -45,7 +45,7 @@ export function HeroSection04() {
                         </div>
                     </div>
                     <div className="flex md:hidden left-1/2 -top-10 w-full md:w-fit overflow-hidden bg-secondary">
-                        <img
+                        <ImageWithSkeleton
                             src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&auto=format&fit=crop&q=60"
                             alt="Designer portrait"
                             className="h-80 w-full object-contain grayscale"
@@ -72,21 +72,21 @@ export function HeroSection04() {
                 <div className="md:flex mt-20 items-end justify-between">
                     <div className="relative">
                         <div className="w-60 h-36 shadow-lg border rounded-md overflow-hidden mb-8 md:mb-0">
-                            <img
+                            <ImageWithSkeleton
                                 src="https://images.unsplash.com/photo-1481487484168-9b930d5b7d9d?w=800&auto=format&fit=crop&q=60"
                                 alt="Portfolio"
                                 className="w-full h-full object-cover"
                             />
                         </div>
                         <div className="w-60 h-36 absolute left-6 -top-6  shadow-lg border rounded-md overflow-hidden mb-8 md:mb-0">
-                            <img
+                            <ImageWithSkeleton
                                 src="https://images.unsplash.com/photo-1481487484168-9b930d5b7d9d?w=800&auto=format&fit=crop&q=60"
                                 alt="Portfolio"
                                 className="w-full h-full object-cover"
                             />
                         </div>
                         <div className="w-60 h-36 absolute left-12 -top-12  shadow-lg border rounded-md overflow-hidden mb-8 md:mb-0">
-                            <img
+                            <ImageWithSkeleton
                                 src="https://images.unsplash.com/photo-1481487484168-9b930d5b7d9d?w=800&auto=format&fit=crop&q=60"
                                 alt="Portfolio"
                                 className="w-full h-full object-cover"

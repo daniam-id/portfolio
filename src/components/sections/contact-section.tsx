@@ -4,7 +4,7 @@ import { ArrowRight, Mail, MessageCircle } from "lucide-react";
 
 export function ContactSection() {
     return (
-        <section className="py-40 md:py-52 min-h-screen flex items-center justify-center relative overflow-hidden">
+        <section className="py-40 md:py-52 min-h-screen flex items-center justify-center relative overflow-hidden" id="contact">
             <div className="mx-auto max-w-7xl px-6 relative z-20 text-center w-full">
                 <h2 className="text-5xl md:text-8xl font-bold tracking-[-4px] md:tracking-[-8px] mb-8">
                     LET'S WORK <br className="hidden md:block" /> TOGETHER

@@ -1,6 +1,7 @@
 import React from "react";
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ImageWithSkeleton } from "@/components/ui/image-with-skeleton";
 
 const projects = [
     {
@@ -21,7 +22,7 @@ const projects = [
 
 export function ProjectsSection() {
     return (
-        <section className="py-20 relative">
+        <section className="py-20 relative" id="projects">
             <div className="mx-auto max-w-7xl px-6 relative z-20">
                 <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
                     <div className="max-w-2xl">
@@ -41,7 +42,7 @@ export function ProjectsSection() {
                     {projects.map((project, index) => (
                         <div key={index} className="group cursor-pointer">
                             <div className="relative aspect-video overflow-hidden rounded-xl bg-secondary mb-6 border border-border">
-                                <img
+                                <ImageWithSkeleton
                                     src={project.image}
                                     alt={project.title}
                                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 grayscale group-hover:grayscale-0"

@@ -1,13 +1,14 @@
 import React from "react";
+import { ImageWithSkeleton } from "@/components/ui/image-with-skeleton";
 
 export function AboutSection() {
     return (
-        <section className="py-20 relative overflow-hidden">
+        <section className="py-20 relative overflow-hidden" id="about">
             <div className="mx-auto max-w-7xl px-6 relative z-20">
                 <div className="grid md:grid-cols-2 gap-12 items-center">
                     <div className="relative">
                         <div className="aspect-[4/5] w-full max-w-md mx-auto overflow-hidden rounded-lg grayscale hover:grayscale-0 transition-all duration-500">
-                            <img
+                            <ImageWithSkeleton
                                 src="/about-portrait.png"
                                 alt="Creative Developer Portrait"
                                 className="w-full h-full object-cover"
