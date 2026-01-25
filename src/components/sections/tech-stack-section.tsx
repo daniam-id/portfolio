@@ -3,15 +3,34 @@ import React from "react";
 const stack = [
     {
         category: "Frontend",
-        items: ["React", "Next.js", "Astro", "TypeScript", "Tailwind CSS", "Framer Motion"]
+        items: [
+            { name: "React", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
+            { name: "Next.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" },
+            { name: "Astro", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/astro/astro-original.svg" },
+            { name: "TypeScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
+            { name: "Tailwind", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" },
+            { name: "Framer", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/framermotion/framermotion-original.svg" }
+        ]
     },
     {
         category: "Backend",
-        items: ["Node.js", "Python", "Supabase", "PostgreSQL", "Firebase"]
+        items: [
+            { name: "Node.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
+            { name: "Python", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
+            { name: "Supabase", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg" },
+            { name: "PostgreSQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
+            { name: "Firebase", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg" }
+        ]
     },
     {
         category: "AI & Tools",
-        items: ["OpenAI API", "LangChain", "Figma", "Git", "Vercel", "Docker"]
+        items: [
+            { name: "OpenAI", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/openai/openai-original.svg" },
+            { name: "Figma", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" },
+            { name: "Git", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
+            { name: "Vercel", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg" },
+            { name: "Docker", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" }
+        ]
     }
 ];
 
@@ -31,14 +50,14 @@ export function TechStackSection() {
                         {stack.map((group, index) => (
                             <div key={index}>
                                 <h3 className="font-semibold mb-6 text-lg">{group.category}</h3>
-                                <ul className="space-y-3">
+                                <div className="grid grid-cols-2 gap-4">
                                     {group.items.map((item, idx) => (
-                                        <li key={idx} className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors">
-                                            <div className="size-1.5 bg-primary rounded-full"></div>
-                                            {item}
-                                        </li>
+                                        <div key={idx} className="flex items-center gap-3 p-3 rounded-lg bg-background border border-border hover:border-primary/50 transition-colors group">
+                                            <img src={item.icon} alt={item.name} className="size-6 grayscale group-hover:grayscale-0 transition-all" />
+                                            <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">{item.name}</span>
+                                        </div>
                                     ))}
-                                </ul>
+                                </div>
                             </div>
                         ))}
                     </div>

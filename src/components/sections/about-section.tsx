@@ -46,12 +46,30 @@ export function AboutSection() {
 
                         <div className="grid grid-cols-2 gap-4 pt-4">
                             <div>
-                                <h3 className="text-3xl font-bold">2+</h3>
+                                <h3 className="text-3xl font-bold">1+</h3>
                                 <p className="text-sm tracking-widest uppercase mt-1">Years Experience</p>
                             </div>
                             <div>
-                                <h3 className="text-3xl font-bold">10+</h3>
+                                <h3 className="text-3xl font-bold">2+</h3>
                                 <p className="text-sm tracking-widest uppercase mt-1">Projects Done</p>
+                            </div>
+                        </div>
+
+                        <div className="pt-8">
+                            <h3 className="text-xl font-bold mb-4">Testimonials</h3>
+                            <div className="bg-secondary/50 p-6 rounded-xl border border-border">
+                                <p className="italic text-muted-foreground mb-4">
+                                    "Working with [Name] was an absolute pleasure. They delivered high-quality work on time and exceeded our expectations."
+                                </p>
+                                <div className="flex items-center gap-3">
+                                    <div className="size-10 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary">
+                                        JD
+                                    </div>
+                                    <div>
+                                        <p className="font-semibold text-sm">John Doe</p>
+                                        <p className="text-xs text-muted-foreground">CEO, Tech Company</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
