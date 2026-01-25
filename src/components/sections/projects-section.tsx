@@ -17,20 +17,6 @@ const projects = [
         description: "Description of your second real project. Focus on the impact and key features implemented.",
         image: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&auto=format&fit=crop&q=60",
         tags: ["TypeScript", "Supabase", "Framer Motion"]
-    },
-    {
-        title: "Travel Journal App",
-        category: "Mobile Development",
-        description: "A cross-platform mobile application for travelers to document their journeys, featuring offline maps and photo syncing.",
-        image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&auto=format&fit=crop&q=60",
-        tags: ["React Native", "Expo", "Firebase"]
-    },
-    {
-        title: "Finance Tracker",
-        category: "Web Application",
-        description: "Personal finance management tool with data visualization, budget planning, and expense categorization.",
-        image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&auto=format&fit=crop&q=60",
-        tags: ["Vue.js", "Supabase", "Tailwind"]
     }
 ];
 
