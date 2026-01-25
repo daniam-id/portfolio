@@ -17,7 +17,7 @@ const stack = [
 
 export function TechStackSection() {
     return (
-        <section className="py-32 md:py-40 min-h-screen flex items-center border-y border-border bg-secondary/20" id="tech">
+        <section className="py-32 md:py-40 min-h-screen flex items-center border-y border-border bg-secondary/20 scroll-mt-24" id="tech">
             <div className="mx-auto max-w-7xl px-6 w-full">
                 <div className="grid md:grid-cols-4 gap-10">
                     <div className="md:col-span-1">

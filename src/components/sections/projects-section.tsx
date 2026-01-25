@@ -22,7 +22,7 @@ const projects = [
 
 export function ProjectsSection() {
     return (
-        <section className="py-20 relative" id="projects">
+        <section className="py-20 relative scroll-mt-24" id="projects">
             <div className="mx-auto max-w-7xl px-6 relative z-20">
                 <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
                     <div className="max-w-2xl">
