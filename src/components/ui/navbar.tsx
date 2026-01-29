@@ -3,14 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-const navLinks = [
-    { name: "About", href: "#about" },
-    { name: "Services", href: "#services" },
-    { name: "Projects", href: "#projects" },
-    { name: "Tech", href: "#tech" },
-    { name: "Contact", href: "#contact" },
-];
+import { siteConfig } from "@/config/site";
 
 export function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -78,7 +71,7 @@ export function Navbar() {
 
                 {/* Desktop Links */}
                 <div className="hidden md:flex items-center gap-8">
-                    {navLinks.map((link) => (
+                    {siteConfig.navLinks.map((link) => (
                         <a
                             key={link.name}
                             href={link.href}
@@ -115,7 +108,7 @@ export function Navbar() {
                         className="absolute top-20 left-6 right-6 bg-background border border-border rounded-2xl p-6 shadow-2xl md:hidden z-50"
                     >
                         <div className="flex flex-col gap-4">
-                            {navLinks.map((link) => (
+                            {siteConfig.navLinks.map((link) => (
                                 <a
                                     key={link.name}
                                     href={link.href}

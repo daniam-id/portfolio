@@ -2,6 +2,7 @@ import React from "react";
 import { ArrowDownRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ImageWithSkeleton } from "@/components/ui/image-with-skeleton";
+import { siteConfig } from "@/config/site";
 
 export function HeroSection04() {
     return (
@@ -9,18 +10,18 @@ export function HeroSection04() {
             <div className="mx-auto max-w-7xl relative z-20 px-6">
                 <div className="relative ">
                     <p className="text-sm absolute -top-4 left-20 font-medium tracking-wider">
-                        1,996
+                        {siteConfig.hero.yearBadge}
                     </p>
                     <h1
                         className={`z-20 text-primary relative font-bold text-center tracking-[-7px] text-7xl md:text-9xl xl:tracking-[-1rem] md:tracking-[-14px] xl:text-[10rem]`}
                     >
-                        WEB DEVELOPER
+                        {siteConfig.hero.headline}
                     </h1>
                     <p className="text-4xl hidden xl:block absolute -bottom-12 right-24 font-thin tracking-[6px]">
-                        AI ENTHUSIAST
+                        {siteConfig.hero.subheadline}
                     </p>
                     <p className="text-4xl absolute xl:hidden -bottom-12 left-24 font-thin tracking-[6px]">
-                        AI ENTHUSIAST
+                        {siteConfig.hero.subheadline}
                     </p>
                 </div>
 
@@ -28,18 +29,18 @@ export function HeroSection04() {
                     <div className="space-y-8 pt-20 flex gap-6 justify-center">
                         <div className="flex gap-6 bg-secondary w-full max-w-xl h-fit p-10 items-end space-y-2 text-xl font-bold md:text-2xl lg:text-3xl">
                             <div className="font-semibold text-xl">
-                                <div>/ FRONTEND DEVELOPMENT</div>
-                                <div>/ FULL-STACK APPLICATIONS</div>
-                                <div>/ AI INTEGRATION</div>
+                                {siteConfig.services.map((service) => (
+                                    <div key={service}>{service}</div>
+                                ))}
                             </div>
                             <div className="absolute hidden  md:flex left-1/2 -top-10 w-fit overflow-hidden bg-secondary">
                                 <ImageWithSkeleton
                                     src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&auto=format&fit=crop&q=60"
-                                    alt="Designer portrait"
+                                    alt="Professional portrait of a web developer"
                                     className="h-80 w-full object-contain grayscale"
                                 />
                                 <div className="text-left p-2 rotate-180 [writing-mode:vertical-rl] text-xs font-medium tracking-widest">
-                                    BASED IN INDONESIA
+                                    {siteConfig.location}
                                 </div>
                             </div>
                         </div>
@@ -47,26 +48,22 @@ export function HeroSection04() {
                     <div className="flex md:hidden left-1/2 -top-10 w-full md:w-fit overflow-hidden bg-secondary">
                         <ImageWithSkeleton
                             src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&auto=format&fit=crop&q=60"
-                            alt="Designer portrait"
+                            alt="Professional portrait of a web developer"
                             className="h-80 w-full object-contain grayscale"
                         />
                         <div className="text-left p-2 rotate-180 [writing-mode:vertical-rl] text-xs font-medium tracking-widest">
-                            BASED IN INDONESIA
+                            {siteConfig.location}
                         </div>
                     </div>
                 </div>
 
                 <div className="md:mt-40 mt-10">
                     <p className="mx-auto max-w-2xl font-mono text-center text-sm font-medium tracking-wide md:text-base">
-                        I BUILD MODERN WEB EXPERIENCES AND EXPLORE
-                        <br />
-                        HOW AI CAN BE INTEGRATED INTO REAL,
-                        <br />
-                        USABLE PRODUCTS
+                        {siteConfig.hero.description}
                     </p>
                 </div>
                 <div className="flex justify-center pt-6">
-                    <Button size={"lg"}>Book a call</Button>
+                    <Button size={"lg"}>{siteConfig.hero.ctaText}</Button>
                 </div>
 
                 <div className="md:flex mt-20 items-end justify-between">
@@ -74,21 +71,21 @@ export function HeroSection04() {
                         <div className="w-60 h-36 shadow-lg border rounded-md overflow-hidden mb-8 md:mb-0">
                             <ImageWithSkeleton
                                 src="https://images.unsplash.com/photo-1481487484168-9b930d5b7d9d?w=800&auto=format&fit=crop&q=60"
-                                alt="Portfolio"
+                                alt="Portfolio project showcase example"
                                 className="w-full h-full object-cover"
                             />
                         </div>
                         <div className="w-60 h-36 absolute left-6 -top-6  shadow-lg border rounded-md overflow-hidden mb-8 md:mb-0">
                             <ImageWithSkeleton
                                 src="https://images.unsplash.com/photo-1481487484168-9b930d5b7d9d?w=800&auto=format&fit=crop&q=60"
-                                alt="Portfolio"
+                                alt="Portfolio project showcase example"
                                 className="w-full h-full object-cover"
                             />
                         </div>
                         <div className="w-60 h-36 absolute left-12 -top-12  shadow-lg border rounded-md overflow-hidden mb-8 md:mb-0">
                             <ImageWithSkeleton
                                 src="https://images.unsplash.com/photo-1481487484168-9b930d5b7d9d?w=800&auto=format&fit=crop&q=60"
-                                alt="Portfolio"
+                                alt="Portfolio project showcase example"
                                 className="w-full h-full object-cover"
                             />
                         </div>

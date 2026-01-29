@@ -1,15 +1,16 @@
 import React from "react";
 import { Github, Linkedin, Twitter, Instagram } from "lucide-react";
+import { siteConfig } from "@/config/site";
+
+const iconMap: Record<string, React.ComponentType<{ size?: number }>> = {
+    GitHub: Github,
+    LinkedIn: Linkedin,
+    Twitter: Twitter,
+    Instagram: Instagram,
+};
 
 export function Footer() {
     const currentYear = new Date().getFullYear();
-
-    const socialLinks = [
-        { name: "GitHub", href: "https://github.com", icon: Github },
-        { name: "LinkedIn", href: "https://linkedin.com", icon: Linkedin },
-        { name: "Twitter", href: "https://twitter.com", icon: Twitter },
-        { name: "Instagram", href: "https://instagram.com", icon: Instagram },
-    ];
 
     return (
         <footer className="border-t border-border bg-background py-12">
@@ -25,18 +26,21 @@ export function Footer() {
                     </div>
 
                     <div className="flex items-center gap-4">
-                        {socialLinks.map((social) => (
-                            <a
-                                key={social.name}
-                                href={social.href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="p-2 rounded-full bg-secondary hover:bg-primary/10 text-muted-foreground hover:text-primary transition-all duration-300"
-                                aria-label={social.name}
-                            >
-                                <social.icon size={20} />
-                            </a>
-                        ))}
+                        {siteConfig.socialLinks.map((social) => {
+                            const Icon = iconMap[social.name];
+                            return (
+                                <a
+                                    key={social.name}
+                                    href={social.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="p-2 rounded-full bg-secondary hover:bg-primary/10 text-muted-foreground hover:text-primary transition-all duration-300"
+                                    aria-label={social.name}
+                                >
+                                    {Icon && <Icon size={20} />}
+                                </a>
+                            );
+                        })}
                     </div>
                 </div>
             </div>
