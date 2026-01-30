@@ -45,7 +45,7 @@ export function Navbar() {
                         ))}
                         <a
                             href="#contact"
-                            className="flex items-center px-8 border-l border-black/10 bg-black text-white text-sm font-medium uppercase tracking-wide hover:bg-factory-gray hover:text-black transition-colors duration-300"
+                            className="flex items-center px-8 border-l border-black/10 bg-black text-white text-sm font-medium uppercase tracking-wide hover:bg-gray-100 hover:text-black transition-colors duration-300"
                         >
                             Let's Talk <ArrowUpRight className="ml-2 w-4 h-4" />
                         </a>

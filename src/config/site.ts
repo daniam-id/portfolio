@@ -45,8 +45,8 @@ export const siteConfig: SiteConfig = {
         { name: "Contact", href: "#contact" },
     ],
     socialLinks: [
-        { name: "GitHub", href: "https://github.com" },
-        { name: "LinkedIn", href: "https://linkedin.com" },
+        { name: "GitHub", href: "https://github.com/daniam-id/" },
+        { name: "LinkedIn", href: "https://www.linkedin.com/in/adam-dani-apta-m-099408323/" },
         { name: "Twitter", href: "https://twitter.com" },
         { name: "Instagram", href: "https://instagram.com" },
     ],
