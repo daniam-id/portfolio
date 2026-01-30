@@ -1,46 +1,66 @@
 import React from "react";
-import { Github, Linkedin, Twitter, Instagram } from "lucide-react";
 import { siteConfig } from "@/config/site";
-
-const iconMap: Record<string, React.ComponentType<{ size?: number }>> = {
-    GitHub: Github,
-    LinkedIn: Linkedin,
-    Twitter: Twitter,
-    Instagram: Instagram,
-};
 
 export function Footer() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="border-t border-border bg-background py-12">
-            <div className="mx-auto max-w-7xl px-6">
-                <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                    <div className="text-center md:text-left">
-                        <p className="text-xl font-bold tracking-tighter mb-2">
-                            PORTFOLIO<span className="text-primary">.</span>
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                            © {currentYear} All rights reserved. Built with Astro & React.
+        <footer id="contact" className="bg-black text-white py-24">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-32">
+                    <div>
+                        <h2 className="font-display text-6xl md:text-8xl font-bold tracking-tighter leading-none mb-8 uppercase">
+                            Let's Work<br />
+                            Together.
+                        </h2>
+                        <p className="text-gray-400 text-xl font-light max-w-md">
+                            Have a project in mind? Let's discuss how we can help your business grow.
                         </p>
                     </div>
 
-                    <div className="flex items-center gap-4">
-                        {siteConfig.socialLinks.map((social) => {
-                            const Icon = iconMap[social.name];
-                            return (
-                                <a
-                                    key={social.name}
-                                    href={social.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="p-2 rounded-full bg-secondary hover:bg-primary/10 text-muted-foreground hover:text-primary transition-all duration-300"
-                                    aria-label={social.name}
-                                >
-                                    {Icon && <Icon size={20} />}
-                                </a>
-                            );
-                        })}
+                    <div className="flex flex-col justify-between">
+                        <div className="grid grid-cols-2 gap-12">
+                            <div>
+                                <h4 className="font-mono text-xs uppercase text-gray-500 mb-6 tracking-widest">
+                                    Menu
+                                </h4>
+                                <ul className="space-y-4 font-display text-xl">
+                                    {siteConfig.navLinks.map((link) => (
+                                        <li key={link.name}>
+                                            <a
+                                                href={link.href}
+                                                className="hover:text-gray-400 transition-colors"
+                                            >
+                                                {link.name}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 className="font-mono text-xs uppercase text-gray-500 mb-6 tracking-widest">
+                                    Connect
+                                </h4>
+                                <ul className="space-y-4 font-display text-xl">
+                                    {siteConfig.socialLinks.map((link) => (
+                                        <li key={link.name}>
+                                            <a
+                                                href={link.href}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="hover:text-gray-400 transition-colors"
+                                            >
+                                                {link.name}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div className="mt-16 md:mt-0 pt-8 border-t border-white/20 flex flex-col md:flex-row justify-between items-start md:items-center text-xs text-gray-500 font-mono uppercase tracking-wide">
+                            <span>© {currentYear} All rights reserved. Built with Astro & React.</span>
+                        </div>
                     </div>
                 </div>
             </div>

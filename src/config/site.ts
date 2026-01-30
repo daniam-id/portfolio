@@ -32,11 +32,11 @@ export interface SiteConfig {
 }
 
 export const siteConfig: SiteConfig = {
-    name: "ALI IMAM",
+    name: "ADAM DANIAM",
     title: "CREATIVE DESIGNER",
     tagline: "AI ENTHUSIAST",
     location: "BASED IN INDONESIA",
-    year: 1996,
+    year: 2004,
     navLinks: [
         { name: "About", href: "#about" },
         { name: "Services", href: "#services" },

@@ -1,129 +1,104 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/config/site";
 
 export function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false);
-    const [isVisible, setIsVisible] = useState(true);
-    const lastScrollY = React.useRef(0);
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const scrollTimeout = React.useRef<NodeJS.Timeout | null>(null);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
-            const currentScrollY = window.scrollY;
-
-            // Background change on scroll
-            if (currentScrollY > 20) {
-                setIsScrolled(true);
-            } else {
-                setIsScrolled(false);
-            }
-
-            // Hide/Show on scroll
-            if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
-                setIsVisible(false);
-            } else {
-                setIsVisible(true);
-            }
-
-            lastScrollY.current = currentScrollY;
-
-            // Auto-show after 1 second of no scrolling
-            if (scrollTimeout.current) {
-                clearTimeout(scrollTimeout.current);
-            }
-
-            scrollTimeout.current = setTimeout(() => {
-                setIsVisible(true);
-            }, 1000);
+            setIsScrolled(window.scrollY > 50);
         };
-
         window.addEventListener("scroll", handleScroll);
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-            if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
-        };
+        return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
     return (
-        <header
-            className={cn(
-                "fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 py-4",
-                !isVisible && "-translate-y-full"
-            )}
-        >
-            <nav
+        <>
+            <header
                 className={cn(
-                    "mx-auto max-w-5xl rounded-full transition-all duration-300 flex items-center justify-between px-6 py-3",
-                    isScrolled
-                        ? "bg-background/80 backdrop-blur-md border border-border shadow-lg"
-                        : "bg-transparent"
+                    "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-black/10 bg-white/90 backdrop-blur-md",
+                    isScrolled ? "py-0" : "py-0"
                 )}
             >
-                {/* Logo */}
-                <a href="/" className="text-xl font-bold tracking-tighter">
-                    PORTFOLIO<span className="text-primary">.</span>
-                </a>
-
-                {/* Desktop Links */}
-                <div className="hidden md:flex items-center gap-8">
-                    {siteConfig.navLinks.map((link) => (
-                        <a
-                            key={link.name}
-                            href={link.href}
-                            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-                        >
-                            {link.name}
+                <div className="w-full flex justify-between items-stretch h-16 md:h-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-x border-black/10">
+                    {/* Logo Section */}
+                    <div className="flex items-center pr-6 md:pr-8 border-r border-black/10">
+                        <a href="/" className="font-display font-bold text-2xl tracking-tighter uppercase flex items-center gap-1">
+                            {siteConfig.name}<span className="text-black">.</span>
                         </a>
-                    ))}
-                </div>
+                    </div>
 
-                {/* CTA Button */}
-                <div className="hidden md:block">
-                    <Button size="sm" className="rounded-full px-6">
-                        Let's Talk
-                    </Button>
-                </div>
+                    {/* Desktop Nav */}
+                    <nav className="hidden md:flex items-stretch ml-auto">
+                        {siteConfig.navLinks.map((link) => (
+                            <a
+                                key={link.name}
+                                href={link.href}
+                                className="flex items-center px-8 border-l border-black/10 text-sm font-medium uppercase tracking-wide hover:bg-black hover:text-white transition-colors duration-200 group relative overflow-hidden"
+                            >
+                                <span className="relative z-10">{link.name}</span>
+                            </a>
+                        ))}
+                        <a
+                            href="#contact"
+                            className="flex items-center px-8 border-l border-black/10 bg-black text-white text-sm font-medium uppercase tracking-wide hover:bg-factory-gray hover:text-black transition-colors duration-300"
+                        >
+                            Let's Talk <ArrowUpRight className="ml-2 w-4 h-4" />
+                        </a>
+                    </nav>
 
-                {/* Mobile Toggle */}
-                <button
-                    className="md:hidden p-2 text-foreground"
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                >
-                    {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                </button>
-            </nav>
-
-            {/* Mobile Menu */}
-            <AnimatePresence>
-                {isMobileMenuOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        className="absolute top-20 left-6 right-6 bg-background border border-border rounded-2xl p-6 shadow-2xl md:hidden z-50"
+                    {/* Mobile Menu Button */}
+                    <button
+                        className="md:hidden flex items-center justify-center px-6 border-l border-black/10 ml-auto"
+                        onClick={() => setMobileMenuOpen(true)}
                     >
-                        <div className="flex flex-col gap-4">
+                        <Menu className="w-6 h-6" />
+                    </button>
+                </div>
+            </header>
+
+            {/* Mobile Menu Overlay */}
+            <AnimatePresence>
+                {mobileMenuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: "-100%" }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: "-100%" }}
+                        transition={{ type: "tween", duration: 0.4, ease: "circOut" }}
+                        className="fixed inset-0 z-[60] bg-white flex flex-col"
+                    >
+                        <div className="flex justify-between items-center p-6 border-b border-black/10">
+                            <span className="font-display font-bold text-2xl uppercase">Menu</span>
+                            <button onClick={() => setMobileMenuOpen(false)}>
+                                <X className="w-8 h-8" />
+                            </button>
+                        </div>
+                        <div className="flex flex-col p-6 space-y-6">
                             {siteConfig.navLinks.map((link) => (
                                 <a
                                     key={link.name}
                                     href={link.href}
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                    className="text-lg font-medium text-muted-foreground hover:text-foreground transition-colors"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="font-display text-4xl md:text-6xl font-light uppercase hover:text-gray-500 transition-colors"
                                 >
                                     {link.name}
                                 </a>
                             ))}
-                            <hr className="border-border" />
-                            <Button className="w-full rounded-full">Let's Talk</Button>
+                            <a
+                                href="#contact"
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="mt-8 inline-flex items-center justify-between w-full py-4 border-t border-b border-black font-display text-xl uppercase font-bold"
+                            >
+                                Let's Talk <ArrowUpRight className="w-6 h-6" />
+                            </a>
                         </div>
                     </motion.div>
                 )}
             </AnimatePresence>
-        </header>
+        </>
     );
 }
