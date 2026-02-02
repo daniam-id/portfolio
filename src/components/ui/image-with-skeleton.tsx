@@ -12,7 +12,22 @@ export function ImageWithSkeleton({
     containerClassName,
     ...props
 }: ImageWithSkeletonProps) {
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+    // Use a ref to check if image is already loaded (e.g. from cache)
+    const imgRef = React.useRef<HTMLImageElement>(null);
+
+    // React.useEffect(() => {
+    //     if (imgRef.current?.complete) {
+    //         setIsLoading(false);
+    //     }
+    //
+    //     // Safety fallback: force invisible status off after 2s if onLoad fails
+    //     const timer = setTimeout(() => {
+    //         setIsLoading(false);
+    //     }, 2000);
+    //
+    //     return () => clearTimeout(timer);
+    // }, []);
 
     return (
         <div className={cn("relative overflow-hidden bg-secondary/50", containerClassName)}>
@@ -22,6 +37,7 @@ export function ImageWithSkeleton({
                 </div>
             )}
             <img
+                ref={imgRef}
                 src={src}
                 alt={alt}
                 loading="lazy"
@@ -32,6 +48,7 @@ export function ImageWithSkeleton({
                     className
                 )}
                 onLoad={() => setIsLoading(false)}
+                onError={() => setIsLoading(false)}
                 {...props}
             />
         </div>

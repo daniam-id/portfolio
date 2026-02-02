@@ -4,6 +4,15 @@ import { ImageWithSkeleton } from "@/components/ui/image-with-skeleton";
 
 const projects = [
     {
+        title: "fraditart Commission",
+        category: "Client Work",
+        description: "Conversion-focused landing page for an independent character illustrator. Features commission pricing, queue status tracking, and terms of service. Built with modern React patterns and optimized for performance.",
+        image: "/projects/fraditart.png",
+        tags: ["React", "Vite", "Landing Page"],
+        year: "2026",
+        status: "Live"
+    },
+    {
         title: "Real Project 1",
         category: "Web Application",
         description: "Description of your first real project. Highlight the problem you solved and the technologies you used.",
