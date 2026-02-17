@@ -71,6 +71,8 @@ export function ProjectsSection() {
                                             <ImageWithSkeleton
                                                 src={project.image}
                                                 alt={project.title}
+                                                width={800}
+                                                height={450}
                                                 className="w-full h-full object-cover"
                                             />
                                         </div>

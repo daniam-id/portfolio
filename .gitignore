@@ -30,8 +30,17 @@ Thumbs.db
 *.njsproj
 *.sln
 *.sw?
-.agent
-.vscode
+.agent/
+
+# Local agent/work logs
+.context/
 
 # TypeScript
 *.tsbuildinfo
+
+# Project Documentation
+AGENTS.md
+PROGRESS.md
+docs/
+GEMINI.md
+install.log

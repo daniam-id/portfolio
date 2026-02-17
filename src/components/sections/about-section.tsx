@@ -20,6 +20,8 @@ export function AboutSection() {
                                     <ImageWithSkeleton
                                         src="/about-portrait.png"
                                         alt="Creative Developer Portrait"
+                                        width={400}
+                                        height={500}
                                         className="w-full h-full object-cover"
                                     />
                                 </div>

@@ -25,7 +25,7 @@ const stack = [
     {
         category: "AI & Tools",
         items: [
-            { name: "OpenAI", icon: "https://cdn.simpleicons.org/openai" },
+            { name: "OpenAI", icon: "https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg" },
             { name: "Figma", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" },
             { name: "Git", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
             { name: "Vercel", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg" },
@@ -65,7 +65,13 @@ export function TechStackSection() {
                                     <div className="space-y-4">
                                         {group.items.map((item, idx) => (
                                             <div key={idx} className="flex items-center gap-3 group cursor-default">
-                                                <img src={item.icon} alt={item.name} className="size-5 grayscale group-hover:grayscale-0 transition-all" />
+                                                <img
+                                                    src={item.icon}
+                                                    alt={item.name}
+                                                    width={20}
+                                                    height={20}
+                                                    className="size-5 grayscale group-hover:grayscale-0 transition-all"
+                                                />
                                                 <span className="font-display text-lg font-light text-gray-800 group-hover:text-black transition-colors">
                                                     {item.name}
                                                 </span>
