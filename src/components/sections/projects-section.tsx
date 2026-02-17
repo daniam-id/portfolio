@@ -11,24 +11,6 @@ const projects = [
         tags: ["React", "Vite", "Landing Page"],
         year: "2026",
         status: "Live"
-    },
-    {
-        title: "Real Project 1",
-        category: "Web Application",
-        description: "Description of your first real project. Highlight the problem you solved and the technologies you used.",
-        image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop&q=60",
-        tags: ["React", "Next.js", "Tailwind"],
-        year: "2025",
-        status: "Active"
-    },
-    {
-        title: "Real Project 2",
-        category: "Mobile App / Website",
-        description: "Description of your second real project. Focus on the impact and key features implemented.",
-        image: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&auto=format&fit=crop&q=60",
-        tags: ["TypeScript", "Supabase", "Framer Motion"],
-        year: "2024",
-        status: "Shipped"
     }
 ];
 
