@@ -27,8 +27,12 @@ export function Navbar() {
                 <div className="w-full flex justify-between items-stretch h-16 md:h-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-x border-black/10">
                     {/* Logo Section */}
                     <div className="flex items-center pr-6 md:pr-8 border-r border-black/10">
-                        <a href="/" className="font-display font-bold text-2xl tracking-tighter uppercase flex items-center gap-1">
-                            {siteConfig.name}<span className="text-black">.</span>
+                        <a href="/" className="flex items-center gap-2">
+                            <img
+                                src="/images/logo.png"
+                                alt={siteConfig.name}
+                                className="h-8 w-auto object-contain"
+                            />
                         </a>
                     </div>
 
