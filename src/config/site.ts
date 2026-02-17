@@ -42,13 +42,12 @@ export const siteConfig: SiteConfig = {
         { name: "Services", href: "#services" },
         { name: "Projects", href: "#projects" },
         { name: "Tech", href: "#tech" },
-        { name: "Contact", href: "#contact" },
+        { name: "Blog", href: "#" },
     ],
     socialLinks: [
         { name: "GitHub", href: "https://github.com/daniam-id/" },
         { name: "LinkedIn", href: "https://www.linkedin.com/in/adam-dani-apta-m-099408323/" },
-        { name: "Twitter", href: "https://twitter.com" },
-        { name: "Instagram", href: "https://instagram.com" },
+        { name: "Instagram", href: "https://www.instagram.com/daniam.dnm/" },
     ],
     services: [
         "/ ART DIRECTION",

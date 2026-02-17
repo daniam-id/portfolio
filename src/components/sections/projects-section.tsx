@@ -4,13 +4,14 @@ import { ImageWithSkeleton } from "@/components/ui/image-with-skeleton";
 
 const projects = [
     {
-        title: "fraditart Commission",
-        category: "Client Work",
+        title: "FRADITART COMMISSION",
+        category: "CLIENT WORK",
         description: "Conversion-focused landing page for an independent character illustrator. Features commission pricing, queue status tracking, and terms of service. Built with modern React patterns and optimized for performance.",
         image: "/projects/fraditart.png",
         tags: ["React", "Vite", "Landing Page"],
         year: "2026",
-        status: "Live"
+        status: "Live",
+        link: "https://fraditart.web.app/"
     }
 ];
 
@@ -45,7 +46,9 @@ export function ProjectsSection() {
                             {projects.map((project, index) => (
                                 <a
                                     key={index}
-                                    href="#"
+                                    href={project.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     className="group block p-8 md:p-12 hover:bg-black hover:text-white transition-all duration-300"
                                 >
                                     <div className="flex flex-col md:flex-row gap-8 items-start">
