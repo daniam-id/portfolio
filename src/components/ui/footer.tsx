@@ -5,16 +5,15 @@ export function Footer() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer id="contact" className="bg-black text-white py-24">
+        <footer className="bg-black text-white py-24">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-32">
                     <div>
-                        <h2 className="font-display text-6xl md:text-8xl font-bold tracking-tighter leading-none mb-8 uppercase">
-                            Let's Work<br />
-                            Together.
+                        <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tighter leading-none mb-8 uppercase">
+                            ADAM DANIAM.
                         </h2>
                         <p className="text-gray-400 text-xl font-light max-w-md">
-                            Have a project in mind? Let's discuss how we can help your business grow.
+                            Always exploring new technologies and open to interesting conversations.
                         </p>
                     </div>
 
