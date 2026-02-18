@@ -14,6 +14,7 @@ const directionClasses = {
     right: "-translate-x-10",
     none: "",
 };
+
 ---
 
 <div
@@ -28,20 +29,18 @@ const directionClasses = {
 </div>
 
 <script>
-    const observerOptions = {
-        root: null,
-        rootMargin: "-100px",
-        threshold: 0.1,
-    };
+    (() => {
+        const win = window;
+        const observerKey = "__motionRevealObserver";
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                const target = entry.target as HTMLElement;
-                const delay = parseFloat(target.dataset.delay || "0");
+        if (!(Reflect.get(win, observerKey) instanceof IntersectionObserver)) {
+            if (!("IntersectionObserver" in window)) {
+                document.querySelectorAll(".motion-reveal").forEach((el) => {
+                    if (!(el instanceof HTMLElement)) {
+                        return;
+                    }
 
-                setTimeout(() => {
-                    target.classList.remove(
+                    el.classList.remove(
                         "opacity-0",
                         "scale-[0.9]",
                         "translate-y-10",
@@ -49,20 +48,77 @@ const directionClasses = {
                         "translate-x-10",
                         "-translate-x-10",
                     );
-                    target.classList.add(
+                    el.classList.add(
                         "opacity-100",
                         "scale-100",
                         "translate-y-0",
                         "translate-x-0",
                     );
-                }, delay * 1000);
+                });
 
-                observer.unobserve(target);
+                return;
             }
-        });
-    }, observerOptions);
 
-    document.querySelectorAll(".motion-reveal").forEach((el) => {
-        observer.observe(el);
-    });
+            const observerOptions = {
+                root: null,
+                rootMargin: "-100px",
+                threshold: 0.1,
+            };
+
+            Reflect.set(
+                win,
+                observerKey,
+                new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting || !(entry.target instanceof HTMLElement)) {
+                        return;
+                    }
+
+                    const target = entry.target;
+                    const delay = parseFloat(target.dataset.delay || "0");
+
+                    setTimeout(() => {
+                        target.classList.remove(
+                            "opacity-0",
+                            "scale-[0.9]",
+                            "translate-y-10",
+                            "-translate-y-10",
+                            "translate-x-10",
+                            "-translate-x-10",
+                        );
+                        target.classList.add(
+                            "opacity-100",
+                            "scale-100",
+                            "translate-y-0",
+                            "translate-x-0",
+                        );
+                    }, delay * 1000);
+
+                    const observer = Reflect.get(win, observerKey);
+                    if (observer instanceof IntersectionObserver) {
+                        observer.unobserve(target);
+                    }
+                });
+            }, observerOptions),
+            );
+        }
+
+        document.querySelectorAll(".motion-reveal").forEach((el) => {
+            if (!(el instanceof HTMLElement)) {
+                return;
+            }
+
+            const observer = Reflect.get(win, observerKey);
+            if (!(observer instanceof IntersectionObserver)) {
+                return;
+            }
+
+            if (el.dataset.motionRevealObserved === "true") {
+                return;
+            }
+
+            el.dataset.motionRevealObserved = "true";
+            observer.observe(el);
+        });
+    })();
 </script>

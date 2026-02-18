@@ -39,10 +39,12 @@ const projects = [
                         with attention to detail and performance.
                     </p>
                     <a
-                        href="#"
+                        href={projects[0]?.link ?? "#contact"}
+                        target={projects[0]?.link ? "_blank" : undefined}
+                        rel={projects[0]?.link ? "noopener noreferrer" : undefined}
                         class="inline-flex items-center text-sm font-medium uppercase tracking-wide hover:text-gray-500 transition-colors"
                     >
-                        View All Projects
+                        View Project
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"

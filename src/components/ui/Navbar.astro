@@ -61,6 +61,8 @@ const navLinks = siteConfig.navLinks;
             id="mobile-menu-open"
             class="md:hidden flex items-center justify-center px-6 border-l border-black/10 ml-auto"
             aria-label="Open Menu"
+            aria-expanded="false"
+            aria-controls="mobile-menu-overlay"
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -88,9 +90,14 @@ const navLinks = siteConfig.navLinks;
 <div
     id="mobile-menu-overlay"
     class="fixed inset-0 z-[60] bg-white flex flex-col translate-y-[-100%] transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]"
+    aria-hidden="true"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="mobile-menu-title"
+    inert
 >
     <div class="flex justify-between items-center p-6 border-b border-black/10">
-        <span class="font-display font-bold text-2xl uppercase">Menu</span>
+        <span id="mobile-menu-title" class="font-display font-bold text-2xl uppercase">Menu</span>
         <button id="mobile-menu-close" aria-label="Close Menu">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -145,7 +152,7 @@ const navLinks = siteConfig.navLinks;
     </div>
 </div>
 
-<script>
+<script lang="ts">
     const header = document.getElementById("main-header");
     const mobileMenuOpen = document.getElementById("mobile-menu-open");
     const mobileMenuClose = document.getElementById("mobile-menu-close");
@@ -167,19 +174,40 @@ const navLinks = siteConfig.navLinks;
     function openMenu() {
         mobileMenuOverlay?.classList.remove("translate-y-[-100%]");
         mobileMenuOverlay?.classList.add("translate-y-0");
+        mobileMenuOpen?.setAttribute("aria-expanded", "true");
+        mobileMenuOverlay?.setAttribute("aria-hidden", "false");
+        mobileMenuOverlay?.removeAttribute("inert");
         document.body.style.overflow = "hidden";
+        mobileMenuClose?.focus();
     }
 
-    function closeMenu() {
+    function isMenuOpen() {
+        return mobileMenuOverlay?.classList.contains("translate-y-0") ?? false;
+    }
+
+    function closeMenu(restoreFocus = true) {
         mobileMenuOverlay?.classList.remove("translate-y-0");
         mobileMenuOverlay?.classList.add("translate-y-[-100%]");
+        mobileMenuOpen?.setAttribute("aria-expanded", "false");
+        mobileMenuOverlay?.setAttribute("aria-hidden", "true");
+        mobileMenuOverlay?.setAttribute("inert", "");
         document.body.style.overflow = "";
+        if (restoreFocus) {
+            mobileMenuOpen?.focus();
+        }
+    }
+
+    function onEscape(event: KeyboardEvent) {
+        if (event.key === "Escape" && isMenuOpen()) {
+            closeMenu();
+        }
     }
 
     mobileMenuOpen?.addEventListener("click", openMenu);
-    mobileMenuClose?.addEventListener("click", closeMenu);
+    mobileMenuClose?.addEventListener("click", () => closeMenu());
+    document.addEventListener("keydown", onEscape);
 
     mobileNavLinks.forEach((link) => {
-        link.addEventListener("click", closeMenu);
+        link.addEventListener("click", () => closeMenu(false));
     });
 </script>
