@@ -1,0 +1,68 @@
+---
+interface Props {
+    delay?: number;
+    direction?: "up" | "down" | "left" | "right" | "none";
+    className?: string;
+}
+
+const { delay = 0, direction = "up", className = "" } = Astro.props;
+
+const directionClasses = {
+    up: "translate-y-10",
+    down: "-translate-y-10",
+    left: "translate-x-10",
+    right: "-translate-x-10",
+    none: "",
+};
+---
+
+<div
+    class:list={[
+        "motion-reveal opacity-0 scale-[0.9] transition-all duration-700 ease-out",
+        directionClasses[direction],
+        className,
+    ]}
+    data-delay={delay}
+>
+    <slot />
+</div>
+
+<script>
+    const observerOptions = {
+        root: null,
+        rootMargin: "-100px",
+        threshold: 0.1,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                const target = entry.target as HTMLElement;
+                const delay = parseFloat(target.dataset.delay || "0");
+
+                setTimeout(() => {
+                    target.classList.remove(
+                        "opacity-0",
+                        "scale-[0.9]",
+                        "translate-y-10",
+                        "-translate-y-10",
+                        "translate-x-10",
+                        "-translate-x-10",
+                    );
+                    target.classList.add(
+                        "opacity-100",
+                        "scale-100",
+                        "translate-y-0",
+                        "translate-x-0",
+                    );
+                }, delay * 1000);
+
+                observer.unobserve(target);
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll(".motion-reveal").forEach((el) => {
+        observer.observe(el);
+    });
+</script>

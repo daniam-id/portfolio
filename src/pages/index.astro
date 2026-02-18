@@ -1,34 +1,34 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { HeroSection04 } from "@/components/ui/hero-04";
-import { AboutSection } from "@/components/sections/about-section";
-import { ServicesSection } from "@/components/sections/services-section";
-import { ProjectsSection } from "@/components/sections/projects-section";
-import { TechStackSection } from "@/components/sections/tech-stack-section";
-import { ContactSection } from "@/components/sections/contact-section";
-import { MotionWrapper } from "@/components/ui/motion-wrapper";
+import HeroSection04 from "@/components/ui/HeroSection04.astro";
+import AboutSection from "@/components/sections/AboutSection.astro";
+import ServicesSection from "@/components/sections/ServicesSection.astro";
+import ProjectsSection from "@/components/sections/ProjectsSection.astro";
+import TechStackSection from "@/components/sections/TechStackSection.astro";
+import ContactSection from "@/components/sections/ContactSection.astro";
+import MotionWrapper from "@/components/ui/MotionWrapper.astro";
 ---
 
 <Layout>
-	<HeroSection04 client:load />
-	
-	<MotionWrapper client:visible>
+	<HeroSection04 />
+
+	<MotionWrapper>
 		<AboutSection />
 	</MotionWrapper>
 
-	<MotionWrapper client:visible delay={0.1}>
+	<MotionWrapper delay={0.1}>
 		<ServicesSection />
 	</MotionWrapper>
 
-	<MotionWrapper client:visible delay={0.1}>
+	<MotionWrapper delay={0.1}>
 		<ProjectsSection />
 	</MotionWrapper>
 
-	<MotionWrapper client:visible delay={0.1}>
+	<MotionWrapper delay={0.1}>
 		<TechStackSection />
 	</MotionWrapper>
 
-	<MotionWrapper client:visible delay={0.1}>
+	<MotionWrapper delay={0.1}>
 		<ContactSection />
 	</MotionWrapper>
 </Layout>

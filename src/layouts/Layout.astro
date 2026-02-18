@@ -1,14 +1,17 @@
 ---
 import "../styles/globals.css";
-import { Navbar } from "@/components/ui/navbar";
-import { Footer } from "@/components/ui/footer";
+import Navbar from "@/components/ui/Navbar.astro";
+import Footer from "@/components/ui/Footer.astro";
 
 interface Props {
 	title?: string;
 	description?: string;
 }
 
-const { title = "Adam Daniam - Web & AI Developer", description = "Web Developer & AI Enthusiast building modern web experiences and exploring how AI can be integrated into real, usable products." } = Astro.props;
+const {
+	title = "Adam Daniam - Web & AI Developer",
+	description = "Web Developer & AI Enthusiast building modern web experiences and exploring how AI can be integrated into real, usable products.",
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -18,11 +21,14 @@ const { title = "Adam Daniam - Web & AI Developer", description = "Web Developer
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		
+
 		<!-- SEO Meta Tags -->
 		<title>{title}</title>
 		<meta name="description" content={description} />
-		<meta name="keywords" content="web developer, ai developer, react developer, nextjs developer, ai solutions, web development indonesia" />
+		<meta
+			name="keywords"
+			content="web developer, ai developer, react developer, nextjs developer, ai solutions, web development indonesia"
+		/>
 		<meta name="author" content="Adam Daniam" />
 		<link rel="canonical" href="https://adamdaniam.com" />
 
@@ -41,15 +47,18 @@ const { title = "Adam Daniam - Web & AI Developer", description = "Web Developer
 		<meta property="twitter:image" content="/og-image.png" />
 
 		<!-- Google Fonts: Space Grotesk & Inter -->
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-		
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
+
 		<!-- Performance Optimizations -->
 		<link rel="preconnect" href="https://cdn.jsdelivr.net" />
 		<link rel="preconnect" href="https://images.unsplash.com" />
 		<link rel="preconnect" href="https://cdn.simpleicons.org" />
-		
+
 		<!-- Structured Data (JSON-LD) -->
 		<script type="application/ld+json">
 			{
@@ -80,15 +89,11 @@ const { title = "Adam Daniam - Web & AI Developer", description = "Web Developer
 				]
 			}
 		</script>
-
-		<script>
-			if (import.meta.env.DEV) {
-				import("react-grab");
-			}
-		</script>
 	</head>
-	<body class="bg-white text-black antialiased selection:bg-black selection:text-white">
-		<Navbar client:load />
+	<body
+		class="bg-white text-black antialiased selection:bg-black selection:text-white"
+	>
+		<Navbar />
 		<main>
 			<slot />
 		</main>
