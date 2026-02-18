@@ -158,6 +158,8 @@ const navLinks = siteConfig.navLinks;
     const mobileMenuClose = document.getElementById("mobile-menu-close");
     const mobileMenuOverlay = document.getElementById("mobile-menu-overlay");
     const mobileNavLinks = document.querySelectorAll(".mobile-nav-link");
+    const focusableSelector =
+        'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
     // Scroll Logic
     window.addEventListener("scroll", () => {
@@ -197,17 +199,67 @@ const navLinks = siteConfig.navLinks;
         }
     }
 
-    function onEscape(event: KeyboardEvent) {
+    function onEscape(event) {
         if (event.key === "Escape" && isMenuOpen()) {
             closeMenu();
+        }
+    }
+
+    function trapMenuFocus(event) {
+        if (event.key !== "Tab" || !isMenuOpen() || !mobileMenuOverlay) {
+            return;
+        }
+
+        const focusableElements = Array.from(mobileMenuOverlay.querySelectorAll(focusableSelector));
+
+        if (focusableElements.length === 0) {
+            event.preventDefault();
+            return;
+        }
+
+        const first = focusableElements[0];
+        const last = focusableElements[focusableElements.length - 1];
+        const activeElement = document.activeElement;
+
+        if (event.shiftKey) {
+            if (activeElement === first || !mobileMenuOverlay.contains(activeElement)) {
+                event.preventDefault();
+                last.focus();
+            }
+            return;
+        }
+
+        if (!mobileMenuOverlay.contains(activeElement)) {
+            event.preventDefault();
+            first.focus();
+            return;
+        }
+
+        if (activeElement === last) {
+            event.preventDefault();
+            first.focus();
         }
     }
 
     mobileMenuOpen?.addEventListener("click", openMenu);
     mobileMenuClose?.addEventListener("click", () => closeMenu());
     document.addEventListener("keydown", onEscape);
+    document.addEventListener("keydown", trapMenuFocus);
 
     mobileNavLinks.forEach((link) => {
-        link.addEventListener("click", () => closeMenu(false));
+        link.addEventListener("click", (event) => {
+            const target = event.currentTarget;
+            const href = target instanceof HTMLAnchorElement ? target.getAttribute("href") : null;
+
+            closeMenu(false);
+
+            if (href?.startsWith("#")) {
+                const destination = document.querySelector(href);
+                if (destination instanceof HTMLElement) {
+                    destination.setAttribute("tabindex", "-1");
+                    destination.focus({ preventScroll: true });
+                }
+            }
+        });
     });
 </script>

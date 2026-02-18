@@ -32,9 +32,11 @@ const directionClasses = {
     (() => {
         const win = window;
         const observerKey = "__motionRevealObserver";
+        const hasIntersectionObserver = "IntersectionObserver" in win;
+        const isObserver = (value) => hasIntersectionObserver && value instanceof IntersectionObserver;
 
-        if (!(Reflect.get(win, observerKey) instanceof IntersectionObserver)) {
-            if (!("IntersectionObserver" in window)) {
+        if (!isObserver(Reflect.get(win, observerKey))) {
+            if (!hasIntersectionObserver) {
                 document.querySelectorAll(".motion-reveal").forEach((el) => {
                     if (!(el instanceof HTMLElement)) {
                         return;
@@ -95,7 +97,7 @@ const directionClasses = {
                     }, delay * 1000);
 
                     const observer = Reflect.get(win, observerKey);
-                    if (observer instanceof IntersectionObserver) {
+                    if (isObserver(observer)) {
                         observer.unobserve(target);
                     }
                 });
@@ -109,7 +111,7 @@ const directionClasses = {
             }
 
             const observer = Reflect.get(win, observerKey);
-            if (!(observer instanceof IntersectionObserver)) {
+            if (!isObserver(observer)) {
                 return;
             }
 
