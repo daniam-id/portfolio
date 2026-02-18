@@ -7,28 +7,39 @@ import ProjectsSection from "@/components/sections/ProjectsSection.astro";
 import TechStackSection from "@/components/sections/TechStackSection.astro";
 import ContactSection from "@/components/sections/ContactSection.astro";
 import MotionWrapper from "@/components/ui/MotionWrapper.astro";
+import MobileDock from "@/components/ui/MobileDock.astro";
 ---
 
 <Layout>
-	<HeroSection04 />
+	<div id="mobile-section-home">
+		<HeroSection04 />
+	</div>
 
-	<MotionWrapper>
-		<AboutSection />
-	</MotionWrapper>
+	<div id="mobile-section-about">
+		<MotionWrapper>
+			<AboutSection />
+		</MotionWrapper>
 
-	<MotionWrapper delay={0.1}>
-		<ServicesSection />
-	</MotionWrapper>
+		<MotionWrapper delay={0.1}>
+			<ServicesSection />
+		</MotionWrapper>
+	</div>
 
-	<MotionWrapper delay={0.1}>
-		<ProjectsSection />
-	</MotionWrapper>
+	<div id="mobile-section-projects">
+		<MotionWrapper delay={0.1}>
+			<ProjectsSection />
+		</MotionWrapper>
 
-	<MotionWrapper delay={0.1}>
-		<TechStackSection />
-	</MotionWrapper>
+		<MotionWrapper delay={0.1}>
+			<TechStackSection />
+		</MotionWrapper>
+	</div>
 
-	<MotionWrapper delay={0.1}>
-		<ContactSection />
-	</MotionWrapper>
+	<div id="mobile-section-contact">
+		<MotionWrapper delay={0.1}>
+			<ContactSection />
+		</MotionWrapper>
+	</div>
+
+	<MobileDock />
 </Layout>

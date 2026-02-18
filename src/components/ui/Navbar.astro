@@ -56,10 +56,10 @@ const navLinks = siteConfig.navLinks;
             </a>
         </nav>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile Menu Button - Hidden when Dock is used */}
         <button
             id="mobile-menu-open"
-            class="md:hidden flex items-center justify-center px-6 border-l border-black/10 ml-auto"
+            class="hidden items-center justify-center px-6 border-l border-black/10 ml-auto"
             aria-label="Open Menu"
             aria-expanded="false"
             aria-controls="mobile-menu-overlay"
@@ -97,7 +97,10 @@ const navLinks = siteConfig.navLinks;
     inert
 >
     <div class="flex justify-between items-center p-6 border-b border-black/10">
-        <span id="mobile-menu-title" class="font-display font-bold text-2xl uppercase">Menu</span>
+        <span
+            id="mobile-menu-title"
+            class="font-display font-bold text-2xl uppercase">Menu</span
+        >
         <button id="mobile-menu-close" aria-label="Close Menu">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -210,7 +213,9 @@ const navLinks = siteConfig.navLinks;
             return;
         }
 
-        const focusableElements = Array.from(mobileMenuOverlay.querySelectorAll(focusableSelector));
+        const focusableElements = Array.from(
+            mobileMenuOverlay.querySelectorAll(focusableSelector),
+        );
 
         if (focusableElements.length === 0) {
             event.preventDefault();
@@ -222,7 +227,10 @@ const navLinks = siteConfig.navLinks;
         const activeElement = document.activeElement;
 
         if (event.shiftKey) {
-            if (activeElement === first || !mobileMenuOverlay.contains(activeElement)) {
+            if (
+                activeElement === first ||
+                !mobileMenuOverlay.contains(activeElement)
+            ) {
                 event.preventDefault();
                 last.focus();
             }
@@ -249,7 +257,10 @@ const navLinks = siteConfig.navLinks;
     mobileNavLinks.forEach((link) => {
         link.addEventListener("click", (event) => {
             const target = event.currentTarget;
-            const href = target instanceof HTMLAnchorElement ? target.getAttribute("href") : null;
+            const href =
+                target instanceof HTMLAnchorElement
+                    ? target.getAttribute("href")
+                    : null;
 
             closeMenu(false);
 
