@@ -7,9 +7,15 @@
     class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] md:hidden"
 >
     <nav
+        role="tablist"
+        aria-label="Mobile Navigation"
         class="flex items-center gap-1 p-2 bg-white/80 backdrop-blur-xl border border-black/5 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.08)]"
     >
         <button
+            id="tab-home"
+            role="tab"
+            aria-selected="true"
+            aria-controls="mobile-section-home"
             data-target="home"
             class="dock-item relative flex flex-col items-center justify-center w-14 h-14 rounded-xl transition-all duration-300 active:scale-95 group active"
             aria-label="Home"
@@ -35,6 +41,10 @@
         </button>
 
         <button
+            id="tab-about"
+            role="tab"
+            aria-selected="false"
+            aria-controls="mobile-section-about"
             data-target="about"
             class="dock-item relative flex flex-col items-center justify-center w-14 h-14 rounded-xl transition-all duration-300 active:scale-95 group"
             aria-label="About"
@@ -59,6 +69,10 @@
         </button>
 
         <button
+            id="tab-projects"
+            role="tab"
+            aria-selected="false"
+            aria-controls="mobile-section-projects"
             data-target="projects"
             class="dock-item relative flex flex-col items-center justify-center w-14 h-14 rounded-xl transition-all duration-300 active:scale-95 group"
             aria-label="Projects"
@@ -93,7 +107,12 @@
         </button>
 
         <button
+            id="tab-contact"
+            role="tab"
+            aria-selected="false"
+            aria-controls="mobile-section-contact"
             data-target="contact"
+            tabindex="-1"
             class="dock-item relative flex flex-col items-center justify-center w-14 h-14 rounded-xl transition-all duration-300 active:scale-95 group"
             aria-label="Contact"
         >
@@ -119,14 +138,21 @@
 </div>
 
 <script>
-    const dockItems = document.querySelectorAll(".dock-item");
+    const dockItems = document.querySelectorAll(
+        ".dock-item",
+    ) as NodeListOf<HTMLElement>;
     const sections = ["home", "about", "projects", "contact"];
 
+    /**
+     * @param {string} target
+     */
     function switchSection(target: string) {
-        // Update Dock UI
+        // Update Dock UI, ARIA states and Roving Tabindex
         dockItems.forEach((item) => {
-            const isTarget = (item as HTMLElement).dataset.target === target;
+            const isTarget = item.dataset.target === target;
             item.classList.toggle("active", isTarget);
+            item.setAttribute("aria-selected", isTarget.toString());
+            item.setAttribute("tabindex", isTarget ? "0" : "-1");
         });
 
         // Update Visibility on mobile
@@ -137,14 +163,16 @@
                 );
                 if (element) {
                     if (secId === target) {
-                        element.style.display = "block";
+                        element.hidden = false;
+                        element.setAttribute("aria-hidden", "false");
                         element.classList.add(
                             "animate-in",
                             "fade-in",
                             "duration-500",
                         );
                     } else {
-                        element.style.display = "none";
+                        element.hidden = true;
+                        element.setAttribute("aria-hidden", "true");
                         element.classList.remove(
                             "animate-in",
                             "fade-in",
@@ -153,11 +181,8 @@
                     }
                 }
             });
-            window.scrollTo({ top: 0, behavior: "instant" });
+            window.scrollTo({ top: 0, behavior: "auto" });
         } else {
-            // On desktop, scroll to the section instead?
-            // Actually requirement says "Desktop tetap menggunakan layout normal/scroll-based"
-            // So we just scroll if needed, but the dock is hidden anyway.
             const element = document.getElementById(target);
             if (element) {
                 element.scrollIntoView({ behavior: "smooth" });
@@ -167,18 +192,40 @@
 
     dockItems.forEach((item) => {
         item.addEventListener("click", () => {
-            const target = (item as HTMLElement).dataset.target;
+            const target = item.dataset.target;
             if (target) switchSection(target);
+        });
+
+        // Handle Arrow Key Navigation for Tablist
+        item.addEventListener("keydown", (e) => {
+            if (!(e instanceof KeyboardEvent)) return;
+            const items = Array.from(dockItems);
+            const index = items.indexOf(item);
+
+            let nextIndex = -1;
+            if (e.key === "ArrowRight") {
+                nextIndex = (index + 1) % items.length;
+            } else if (e.key === "ArrowLeft") {
+                nextIndex = (index - 1 + items.length) % items.length;
+            }
+
+            if (nextIndex !== -1) {
+                e.preventDefault();
+                const nextItem = items[nextIndex];
+                if (nextItem instanceof HTMLElement) {
+                    nextItem.focus();
+                    nextItem.click(); // Selection follows focus
+                }
+            }
         });
     });
 
     // Handle initial state and resize
     function handleView() {
         if (window.innerWidth < 768) {
-            // Find current active target or default to home
             const activeItem = document.querySelector(
                 ".dock-item.active",
-            ) as HTMLElement;
+            ) as HTMLElement | null;
             const target = activeItem?.dataset.target || "home";
 
             sections.forEach((secId) => {
@@ -186,17 +233,26 @@
                     `mobile-section-${secId}`,
                 );
                 if (element) {
-                    element.style.display = secId === target ? "block" : "none";
+                    const isTarget = secId === target;
+                    element.hidden = !isTarget;
+                    element.setAttribute("aria-hidden", (!isTarget).toString());
                 }
             });
+
+            // Sync initial ARIA state and tabindex
+            dockItems.forEach((item) => {
+                const isTarget = item.dataset.target === target;
+                item.setAttribute("aria-selected", isTarget.toString());
+                item.setAttribute("tabindex", isTarget ? "0" : "-1");
+            });
         } else {
-            // Restore all on desktop
             sections.forEach((secId) => {
                 const element = document.getElementById(
                     `mobile-section-${secId}`,
                 );
                 if (element) {
-                    element.style.display = "block";
+                    element.hidden = false;
+                    element.setAttribute("aria-hidden", "false");
                 }
             });
         }
@@ -204,6 +260,5 @@
 
     window.addEventListener("resize", handleView);
     document.addEventListener("astro:page-load", handleView);
-    // Also run immediately
     handleView();
 </script>

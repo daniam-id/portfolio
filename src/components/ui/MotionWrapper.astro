@@ -14,12 +14,11 @@ const directionClasses = {
     right: "-translate-x-10",
     none: "",
 };
-
 ---
 
 <div
     class:list={[
-        "motion-reveal opacity-0 scale-[0.9] transition-all duration-700 ease-out",
+        "motion-reveal opacity-0 scale-[0.95] transition-all duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)]",
         directionClasses[direction],
         className,
     ]}
@@ -28,99 +27,126 @@ const directionClasses = {
     <slot />
 </div>
 
-<script>
-    (() => {
-        const win = window;
-        const observerKey = "__motionRevealObserver";
-        const hasIntersectionObserver = "IntersectionObserver" in win;
-        const isObserver = (value) => hasIntersectionObserver && value instanceof IntersectionObserver;
-
-        if (!isObserver(Reflect.get(win, observerKey))) {
-            if (!hasIntersectionObserver) {
-                document.querySelectorAll(".motion-reveal").forEach((el) => {
-                    if (!(el instanceof HTMLElement)) {
-                        return;
-                    }
-
-                    el.classList.remove(
-                        "opacity-0",
-                        "scale-[0.9]",
-                        "translate-y-10",
-                        "-translate-y-10",
-                        "translate-x-10",
-                        "-translate-x-10",
-                    );
-                    el.classList.add(
-                        "opacity-100",
-                        "scale-100",
-                        "translate-y-0",
-                        "translate-x-0",
-                    );
-                });
-
-                return;
-            }
-
-            const observerOptions = {
-                root: null,
-                rootMargin: "-100px",
-                threshold: 0.1,
-            };
-
-            Reflect.set(
-                win,
-                observerKey,
-                new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (!entry.isIntersecting || !(entry.target instanceof HTMLElement)) {
-                        return;
-                    }
-
-                    const target = entry.target;
-                    const delay = parseFloat(target.dataset.delay || "0");
-
-                    setTimeout(() => {
-                        target.classList.remove(
-                            "opacity-0",
-                            "scale-[0.9]",
-                            "translate-y-10",
-                            "-translate-y-10",
-                            "translate-x-10",
-                            "-translate-x-10",
-                        );
-                        target.classList.add(
-                            "opacity-100",
-                            "scale-100",
-                            "translate-y-0",
-                            "translate-x-0",
-                        );
-                    }, delay * 1000);
-
-                    const observer = Reflect.get(win, observerKey);
-                    if (isObserver(observer)) {
-                        observer.unobserve(target);
-                    }
-                });
-            }, observerOptions),
-            );
+<noscript>
+    <style>
+        .motion-reveal {
+            opacity: 1 !important;
+            scale: 1 !important;
+            transform: none !important;
+            transition: none !important;
         }
+    </style>
+</noscript>
 
-        document.querySelectorAll(".motion-reveal").forEach((el) => {
-            if (!(el instanceof HTMLElement)) {
-                return;
+<script>
+    /**
+     * Optimized Animation Handler
+     * Uses a dual-observer pattern for performance and memory efficiency.
+     */
+    let prepareObserver: IntersectionObserver | null = null;
+    let revealObserver: IntersectionObserver | null = null;
+
+    function initMotionReveal() {
+        const revealElements = document.querySelectorAll(".motion-reveal");
+        if (revealElements.length === 0) return;
+
+        // Disconnect existing observers to prevent duplication on View Transitions
+        prepareObserver?.disconnect();
+        revealObserver?.disconnect();
+
+        /**
+         * 1. Prepare Observer: Adds 'will-change' to warm up GPU before entry.
+         * Activates at 200px distance from viewport.
+         */
+        prepareObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (
+                        entry.isIntersecting &&
+                        entry.target instanceof HTMLElement
+                    ) {
+                        entry.target.style.willChange = "opacity, transform";
+                        prepareObserver?.unobserve(entry.target);
+                    }
+                });
+            },
+            { rootMargin: "200px" },
+        );
+
+        /**
+         * 2. Reveal Observer: Triggers the actual reveal animation.
+         * Activates when element enters viewport.
+         */
+        revealObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (
+                        entry.isIntersecting &&
+                        entry.target instanceof HTMLElement
+                    ) {
+                        const el = entry.target;
+                        const delay =
+                            parseFloat(el.dataset.delay || "0") * 1000;
+
+                        setTimeout(() => {
+                            // Reveal animation
+                            el.classList.remove(
+                                "opacity-0",
+                                "scale-[0.95]",
+                                "translate-y-10",
+                                "-translate-y-10",
+                                "translate-x-10",
+                                "-translate-x-10",
+                            );
+                            el.classList.add(
+                                "opacity-100",
+                                "scale-100",
+                                "translate-y-0",
+                                "translate-x-0",
+                            );
+
+                            // Cleanup will-change after animation to free GPU memory
+                            const onTransitionEnd = () => {
+                                el.style.willChange = "auto";
+                                el.removeEventListener(
+                                    "transitionend",
+                                    onTransitionEnd,
+                                );
+                            };
+                            el.addEventListener(
+                                "transitionend",
+                                onTransitionEnd,
+                            );
+                        }, delay);
+
+                        revealObserver?.unobserve(el);
+                    }
+                });
+            },
+            { threshold: 0.1, rootMargin: "0px" },
+        );
+
+        // Observe all selected elements
+        revealElements.forEach((el) => {
+            // Only observe if not already revealed (supports View Transitions/Persisted State)
+            if (el.classList.contains("opacity-0")) {
+                prepareObserver?.observe(el);
+                revealObserver?.observe(el);
+            } else {
+                // If it's already shown (e.g. back button), ensure it stays shown
+                (el as HTMLElement).style.willChange = "auto";
             }
-
-            const observer = Reflect.get(win, observerKey);
-            if (!isObserver(observer)) {
-                return;
-            }
-
-            if (el.dataset.motionRevealObserved === "true") {
-                return;
-            }
-
-            el.dataset.motionRevealObserved = "true";
-            observer.observe(el);
         });
-    })();
+    }
+
+    // Initialize on load and on View Transition navigation
+    document.addEventListener("astro:page-load", initMotionReveal);
+
+    // Fallback for initial load if page-load is delayed
+    if (
+        document.readyState === "complete" ||
+        document.readyState === "interactive"
+    ) {
+        initMotionReveal();
+    }
 </script>

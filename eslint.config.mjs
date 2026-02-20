@@ -4,9 +4,19 @@ import ts from "typescript-eslint";
 
 const eslintConfig = defineConfig([
   // Astro recommended config
-  astro.configs.recommended,
-  // TypeScript config
-  ...ts.configs.recommended,
+  ...astro.configs.recommended,
+  // TypeScript config - applied to TS files
+  ...ts.configs.recommended.map(config => ({
+    ...config,
+    files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
+  })),
+  // Disable require warning for CJS files
+  {
+    files: ["**/*.cjs"],
+    rules: {
+      "@typescript-eslint/no-require-imports": "off",
+    }
+  },
   // Global ignores
   globalIgnores([
     "dist/**",

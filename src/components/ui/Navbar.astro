@@ -13,7 +13,11 @@ const navLinks = siteConfig.navLinks;
     >
         {/* Logo Section */}
         <div class="flex items-center pr-6 md:pr-8 border-r border-black/10">
-            <a href="/" class="flex items-center gap-2">
+            <a
+                href="/"
+                class="flex items-center gap-2"
+                aria-label="Go to Homepage"
+            >
                 <img
                     src="/images/logo.png"
                     alt={siteConfig.name}
@@ -63,6 +67,7 @@ const navLinks = siteConfig.navLinks;
             aria-label="Open Menu"
             aria-expanded="false"
             aria-controls="mobile-menu-overlay"
+            aria-haspopup="dialog"
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -89,7 +94,7 @@ const navLinks = siteConfig.navLinks;
 {/* Mobile Menu Overlay */}
 <div
     id="mobile-menu-overlay"
-    class="fixed inset-0 z-[60] bg-white flex flex-col translate-y-[-100%] transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]"
+    class="fixed inset-0 z-[60] bg-white flex flex-col translate-y-[-100%] transition-transform duration-500 [transition-timing-function:cubic-bezier(0.19,1,0.22,1)]"
     aria-hidden="true"
     role="dialog"
     aria-modal="true"
@@ -155,25 +160,51 @@ const navLinks = siteConfig.navLinks;
     </div>
 </div>
 
-<script lang="ts">
+<script>
     const header = document.getElementById("main-header");
-    const mobileMenuOpen = document.getElementById("mobile-menu-open");
-    const mobileMenuClose = document.getElementById("mobile-menu-close");
-    const mobileMenuOverlay = document.getElementById("mobile-menu-overlay");
-    const mobileNavLinks = document.querySelectorAll(".mobile-nav-link");
-    const focusableSelector =
-        'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    const mobileMenuOpen = document.getElementById(
+        "mobile-menu-open",
+    ) as HTMLButtonElement | null;
+    const mobileMenuClose = document.getElementById(
+        "mobile-menu-close",
+    ) as HTMLButtonElement | null;
+    const mobileMenuOverlay = document.getElementById(
+        "mobile-menu-overlay",
+    ) as HTMLElement | null;
+    const mobileNavLinks = document.querySelectorAll(
+        ".mobile-nav-link",
+    ) as NodeListOf<HTMLElement>;
+    const mainContent = document.querySelector("main") as HTMLElement | null;
+    const footers = document.querySelectorAll(
+        "footer, .md\\:block > footer",
+    ) as NodeListOf<HTMLElement>;
 
     // Scroll Logic
     window.addEventListener("scroll", () => {
         if (window.scrollY > 50) {
             header?.classList.add("shadow-sm");
-            // Logic for isScrolled ? "py-0" : "py-0" was in React but practically no difference?
-            // keeping it for consistency if needed later
         } else {
             header?.classList.remove("shadow-sm");
         }
     });
+
+    /**
+     * @param {boolean} active
+     */
+    function toggleBackgroundInert(active: boolean) {
+        if (mainContent) {
+            if (active) mainContent.setAttribute("inert", "");
+            else mainContent.removeAttribute("inert");
+        }
+        if (header) {
+            if (active) header.setAttribute("inert", "");
+            else header.removeAttribute("inert");
+        }
+        footers.forEach((footer) => {
+            if (active) footer.setAttribute("inert", "");
+            else footer.removeAttribute("inert");
+        });
+    }
 
     // Mobile Menu Toggle
     function openMenu() {
@@ -182,8 +213,17 @@ const navLinks = siteConfig.navLinks;
         mobileMenuOpen?.setAttribute("aria-expanded", "true");
         mobileMenuOverlay?.setAttribute("aria-hidden", "false");
         mobileMenuOverlay?.removeAttribute("inert");
+
+        toggleBackgroundInert(true);
         document.body.style.overflow = "hidden";
-        mobileMenuClose?.focus();
+
+        // Focus search first link if available, otherwise close button
+        const firstLink = mobileNavLinks[0];
+        if (firstLink instanceof HTMLElement) {
+            firstLink.focus();
+        } else {
+            mobileMenuClose?.focus();
+        }
     }
 
     function isMenuOpen() {
@@ -196,67 +236,65 @@ const navLinks = siteConfig.navLinks;
         mobileMenuOpen?.setAttribute("aria-expanded", "false");
         mobileMenuOverlay?.setAttribute("aria-hidden", "true");
         mobileMenuOverlay?.setAttribute("inert", "");
+
+        toggleBackgroundInert(false);
         document.body.style.overflow = "";
+
         if (restoreFocus) {
             mobileMenuOpen?.focus();
         }
     }
 
-    function onEscape(event) {
+    /**
+     * @param {KeyboardEvent} event
+     */
+    function onKeyDown(event: KeyboardEvent) {
         if (event.key === "Escape" && isMenuOpen()) {
             closeMenu();
         }
-    }
 
-    function trapMenuFocus(event) {
-        if (event.key !== "Tab" || !isMenuOpen() || !mobileMenuOverlay) {
-            return;
-        }
+        // Manual focus trap fallback for browsers that don't support 'inert' well
+        if (event.key === "Tab" && isMenuOpen() && mobileMenuOverlay) {
+            const focusableElements = mobileMenuOverlay.querySelectorAll(
+                'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+            ) as NodeListOf<HTMLElement>;
+            const first = focusableElements[0];
+            const last = focusableElements[focusableElements.length - 1];
 
-        const focusableElements = Array.from(
-            mobileMenuOverlay.querySelectorAll(focusableSelector),
-        );
-
-        if (focusableElements.length === 0) {
-            event.preventDefault();
-            return;
-        }
-
-        const first = focusableElements[0];
-        const last = focusableElements[focusableElements.length - 1];
-        const activeElement = document.activeElement;
-
-        if (event.shiftKey) {
-            if (
-                activeElement === first ||
-                !mobileMenuOverlay.contains(activeElement)
-            ) {
-                event.preventDefault();
-                last.focus();
+            if (event.shiftKey) {
+                if (
+                    document.activeElement === first &&
+                    last instanceof HTMLElement
+                ) {
+                    event.preventDefault();
+                    last.focus();
+                }
+            } else {
+                if (
+                    document.activeElement === last &&
+                    first instanceof HTMLElement
+                ) {
+                    event.preventDefault();
+                    first.focus();
+                }
             }
-            return;
-        }
-
-        if (!mobileMenuOverlay.contains(activeElement)) {
-            event.preventDefault();
-            first.focus();
-            return;
-        }
-
-        if (activeElement === last) {
-            event.preventDefault();
-            first.focus();
         }
     }
 
     mobileMenuOpen?.addEventListener("click", openMenu);
     mobileMenuClose?.addEventListener("click", () => closeMenu());
-    document.addEventListener("keydown", onEscape);
-    document.addEventListener("keydown", trapMenuFocus);
+    document.addEventListener("keydown", (e) => onKeyDown(e as KeyboardEvent));
+
+    // Close menu when clicking backdrop area
+    mobileMenuOverlay?.addEventListener("click", (e) => {
+        if (e.target === mobileMenuOverlay) {
+            closeMenu();
+        }
+    });
 
     mobileNavLinks.forEach((link) => {
         link.addEventListener("click", (event) => {
-            const target = event.currentTarget;
+            const target = event.currentTarget as HTMLElement;
             const href =
                 target instanceof HTMLAnchorElement
                     ? target.getAttribute("href")

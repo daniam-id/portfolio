@@ -5,7 +5,10 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "lint:astro": "astro check",
+    "validate:nav": "node scripts/validate-nav.mjs",
+    "test:links": "linkinator dist --recurse --skip \"^(?!http://localhost)\"",
+    "build": "npm run lint:astro && npm run validate:nav && astro build && npm run test:links",
     "preview": "astro preview",
     "astro": "astro",
     "lint": "npx eslint ."
@@ -20,9 +23,11 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.6",
     "@types/node": "^20",
     "eslint": "^9",
     "eslint-plugin-astro": "^1.5.0",
+    "linkinator": "^7.5.3",
     "tailwindcss": "^3.4.19",
     "typescript": "^5",
     "typescript-eslint": "^8.54.0"

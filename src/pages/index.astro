@@ -11,11 +11,11 @@ import MobileDock from "@/components/ui/MobileDock.astro";
 ---
 
 <Layout>
-	<div id="mobile-section-home">
+	<div id="mobile-section-home" role="tabpanel" aria-labelledby="tab-home">
 		<HeroSection04 />
 	</div>
 
-	<div id="mobile-section-about">
+	<div id="mobile-section-about" role="tabpanel" aria-labelledby="tab-about">
 		<MotionWrapper>
 			<AboutSection />
 		</MotionWrapper>
@@ -25,7 +25,11 @@ import MobileDock from "@/components/ui/MobileDock.astro";
 		</MotionWrapper>
 	</div>
 
-	<div id="mobile-section-projects">
+	<div
+		id="mobile-section-projects"
+		role="tabpanel"
+		aria-labelledby="tab-projects"
+	>
 		<MotionWrapper delay={0.1}>
 			<ProjectsSection />
 		</MotionWrapper>
@@ -35,7 +39,11 @@ import MobileDock from "@/components/ui/MobileDock.astro";
 		</MotionWrapper>
 	</div>
 
-	<div id="mobile-section-contact">
+	<div
+		id="mobile-section-contact"
+		role="tabpanel"
+		aria-labelledby="tab-contact"
+	>
 		<MotionWrapper delay={0.1}>
 			<ContactSection />
 		</MotionWrapper>
