@@ -12,6 +12,9 @@ const {
 	title = "Adam Daniam - Web & AI Developer",
 	description = "Web Developer & AI Enthusiast building modern web experiences and exploring how AI can be integrated into real, usable products.",
 } = Astro.props;
+
+const siteUrl = "https://adamdev.web.id";
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 ---
 
 <!doctype html>
@@ -30,11 +33,11 @@ const {
 			content="web developer indonesia, jasa pembuatan website, ai developer, react developer, nextjs developer, ai solutions, web developer jakarta, freelance web developer, fullstack developer indonesia"
 		/>
 		<meta name="author" content="Adam Daniam" />
-		<link rel="canonical" href="https://adamdev.web.id" />
+		<link rel="canonical" href={canonicalUrl} />
 
 		<!-- Open Graph / Facebook -->
 		<meta property="og:type" content="website" />
-		<meta property="og:url" content="https://adamdev.web.id" />
+		<meta property="og:url" content={canonicalUrl} />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta
@@ -44,7 +47,7 @@ const {
 
 		<!-- Twitter -->
 		<meta property="twitter:card" content="summary_large_image" />
-		<meta property="twitter:url" content="https://adamdev.web.id" />
+		<meta property="twitter:url" content={canonicalUrl} />
 		<meta property="twitter:title" content={title} />
 		<meta property="twitter:description" content={description} />
 		<meta

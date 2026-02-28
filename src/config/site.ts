@@ -38,8 +38,8 @@ export const siteConfig: SiteConfig = {
     location: "BASED IN INDONESIA",
     year: 2004,
     navLinks: [
-        { name: "About", href: "#about" },
-        { name: "Services", href: "#services" },
+        { name: "About", href: "/#about" },
+        { name: "Services", href: "/#services" },
         { name: "Projects", href: "/#projects" },
         { name: "Tech", href: "/#tech" },
         { name: "Blog", href: "/blog/" },

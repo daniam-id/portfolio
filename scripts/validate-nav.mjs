@@ -18,12 +18,12 @@ function validateNavigation() {
 
     // 1. Extract links from site.ts
     const siteConfigContent = fs.readFileSync(SITE_CONFIG_PATH, 'utf-8');
-    const hrefRegex = /href:\s*["'](#[a-zA-Z0-9_-]+)["']/g;
+    const hrefRegex = /href:\s*["'](?:\/?#)([a-zA-Z0-9_-]+)["']/g;
     const expectedIds = new Set();
     let match;
 
     while ((match = hrefRegex.exec(siteConfigContent)) !== null) {
-        const id = match[1].substring(1); // remove #
+        const id = match[1]; // ID without #
         if (id) expectedIds.add(id);
     }
 
