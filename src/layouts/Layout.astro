@@ -19,7 +19,7 @@ const {
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+		<link rel="icon" type="image/png" href="/images/logo.png" />
 		<meta name="generator" content={Astro.generator} />
 
 		<!-- SEO Meta Tags -->
@@ -87,6 +87,12 @@ const {
 						"mainEntity": { "@id": "#person" }
 					}
 				]
+			}
+		</script>
+		<!-- React Grab -->
+		<script>
+			if (import.meta.env.DEV) {
+				import("react-grab");
 			}
 		</script>
 	</head>
