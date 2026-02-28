@@ -73,11 +73,16 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
 		/>
 		<link
+			id="google-fonts"
 			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
 			rel="stylesheet"
 			media="print"
-			onload="this.onload=null;this.media='all';"
 		/>
+		<script is:inline>
+			document.getElementById("google-fonts").onload = function () {
+				this.media = "all";
+			};
+		</script>
 		<noscript>
 			<link
 				href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
@@ -133,8 +138,8 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 			}
 		</script>
 		<!-- Dev-only tool: load react-grab overlay in development only. -->
-		<script>
-			if (import.meta.env.DEV) {
+		<script is:inline>
+			if (import.meta.env && import.meta.env.DEV) {
 				import("react-grab");
 			}
 		</script>
