@@ -12,6 +12,9 @@ const {
 	title = "Adam Daniam - Web & AI Developer",
 	description = "Web Developer & AI Enthusiast building modern web experiences and exploring how AI can be integrated into real, usable products.",
 } = Astro.props;
+
+const siteUrl = "https://adamdev.web.id";
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 ---
 
 <!doctype html>
@@ -27,28 +30,39 @@ const {
 		<meta name="description" content={description} />
 		<meta
 			name="keywords"
-			content="web developer, ai developer, react developer, nextjs developer, ai solutions, web development indonesia"
+			content="web developer indonesia, jasa pembuatan website, ai developer, react developer, nextjs developer, ai solutions, web developer jakarta, freelance web developer, fullstack developer indonesia"
 		/>
 		<meta name="author" content="Adam Daniam" />
-		<link rel="canonical" href="https://adamdaniam.com" />
+		<link rel="canonical" href={canonicalUrl} />
 
 		<!-- Open Graph / Facebook -->
 		<meta property="og:type" content="website" />
-		<meta property="og:url" content="https://adamdaniam.com" />
+		<meta property="og:url" content={canonicalUrl} />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
-		<meta property="og:image" content="/og-image.png" />
+		<meta
+			property="og:image"
+			content="https://adamdev.web.id/og-image.png"
+		/>
 
 		<!-- Twitter -->
 		<meta property="twitter:card" content="summary_large_image" />
-		<meta property="twitter:url" content="https://adamdaniam.com" />
+		<meta property="twitter:url" content={canonicalUrl} />
 		<meta property="twitter:title" content={title} />
 		<meta property="twitter:description" content={description} />
-		<meta property="twitter:image" content="/og-image.png" />
+		<meta
+			property="twitter:image"
+			content="https://adamdev.web.id/og-image.png"
+		/>
 
 		<!-- Google Fonts: Space Grotesk & Inter -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			rel="preload"
+			as="style"
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+		/>
 		<link
 			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
 			rel="stylesheet"
@@ -69,17 +83,29 @@ const {
 						"@id": "#person",
 						"name": "Adam Daniam",
 						"jobTitle": "Web & AI Developer",
-						"url": "https://adamdaniam.com",
-						"image": "https://adamdaniam.com/og-image.png",
+						"description": "Web Developer dan AI Enthusiast berbasis di Indonesia. Membangun aplikasi web modern dan mengintegrasikan AI ke dalam produk nyata.",
+						"url": "https://adamdev.web.id",
+						"image": "https://adamdev.web.id/og-image.png",
+						"knowsAbout": [
+							"Web Development",
+							"React",
+							"Next.js",
+							"Astro",
+							"AI Integration",
+							"LLM",
+							"TypeScript",
+							"UI/UX Design"
+						],
 						"sameAs": [
-							"https://github.com/adamdaniam",
-							"https://linkedin.com/in/adamdaniam"
+							"https://github.com/daniam-id/",
+							"https://www.linkedin.com/in/adam-dani-apta-m-099408323/",
+							"https://www.instagram.com/daniam.dnm/"
 						]
 					},
 					{
 						"@type": "WebSite",
 						"name": "Adam Daniam Portfolio",
-						"url": "https://adamdaniam.com",
+						"url": "https://adamdev.web.id",
 						"publisher": { "@id": "#person" }
 					},
 					{

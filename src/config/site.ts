@@ -38,11 +38,11 @@ export const siteConfig: SiteConfig = {
     location: "BASED IN INDONESIA",
     year: 2004,
     navLinks: [
-        { name: "About", href: "#about" },
-        { name: "Services", href: "#services" },
-        { name: "Projects", href: "#projects" },
-        { name: "Tech", href: "#tech" },
-        { name: "Blog", href: "#" },
+        { name: "About", href: "/#about" },
+        { name: "Services", href: "/#services" },
+        { name: "Projects", href: "/#projects" },
+        { name: "Tech", href: "/#tech" },
+        { name: "Blog", href: "/blog/" },
     ],
     socialLinks: [
         { name: "GitHub", href: "https://github.com/daniam-id/" },
