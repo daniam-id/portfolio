@@ -1,5 +1,7 @@
 ---
 import { siteConfig } from "@/config/site";
+import { Image } from "astro:assets";
+import logoImage from "@/assets/images/logo.png";
 
 const navLinks = siteConfig.navLinks;
 ---
@@ -18,10 +20,12 @@ const navLinks = siteConfig.navLinks;
                 class="flex items-center gap-2"
                 aria-label="Go to Homepage"
             >
-                <img
-                    src="/images/logo.png"
+                <Image
+                    src={logoImage}
                     alt={siteConfig.name}
                     class="h-8 w-auto object-contain"
+                    loading="eager"
+                    format="webp"
                 />
             </a>
         </div>
