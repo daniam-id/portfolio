@@ -1,34 +1,53 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { HeroSection04 } from "@/components/ui/hero-04";
-import { AboutSection } from "@/components/sections/about-section";
-import { ServicesSection } from "@/components/sections/services-section";
-import { ProjectsSection } from "@/components/sections/projects-section";
-import { TechStackSection } from "@/components/sections/tech-stack-section";
-import { ContactSection } from "@/components/sections/contact-section";
-import { MotionWrapper } from "@/components/ui/motion-wrapper";
+import HeroSection04 from "@/components/ui/HeroSection04.astro";
+import AboutSection from "@/components/sections/AboutSection.astro";
+import ServicesSection from "@/components/sections/ServicesSection.astro";
+import ProjectsSection from "@/components/sections/ProjectsSection.astro";
+import TechStackSection from "@/components/sections/TechStackSection.astro";
+import ContactSection from "@/components/sections/ContactSection.astro";
+import MotionWrapper from "@/components/ui/MotionWrapper.astro";
+import MobileDock from "@/components/ui/MobileDock.astro";
 ---
 
 <Layout>
-	<HeroSection04 client:load />
-	
-	<MotionWrapper client:visible>
-		<AboutSection />
-	</MotionWrapper>
+	<div id="mobile-section-home" role="tabpanel" aria-labelledby="tab-home">
+		<HeroSection04 />
+	</div>
 
-	<MotionWrapper client:visible delay={0.1}>
-		<ServicesSection />
-	</MotionWrapper>
+	<div id="mobile-section-about" role="tabpanel" aria-labelledby="tab-about">
+		<MotionWrapper>
+			<AboutSection />
+		</MotionWrapper>
 
-	<MotionWrapper client:visible delay={0.1}>
-		<ProjectsSection />
-	</MotionWrapper>
+		<MotionWrapper delay={0.1}>
+			<ServicesSection />
+		</MotionWrapper>
+	</div>
 
-	<MotionWrapper client:visible delay={0.1}>
-		<TechStackSection />
-	</MotionWrapper>
+	<div
+		id="mobile-section-projects"
+		role="tabpanel"
+		aria-labelledby="tab-projects"
+	>
+		<MotionWrapper delay={0.1}>
+			<ProjectsSection />
+		</MotionWrapper>
 
-	<MotionWrapper client:visible delay={0.1}>
-		<ContactSection />
-	</MotionWrapper>
+		<MotionWrapper delay={0.1}>
+			<TechStackSection />
+		</MotionWrapper>
+	</div>
+
+	<div
+		id="mobile-section-contact"
+		role="tabpanel"
+		aria-labelledby="tab-contact"
+	>
+		<MotionWrapper delay={0.1}>
+			<ContactSection />
+		</MotionWrapper>
+	</div>
+
+	<MobileDock />
 </Layout>

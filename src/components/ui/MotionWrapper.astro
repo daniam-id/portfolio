@@ -1,0 +1,152 @@
+---
+interface Props {
+    delay?: number;
+    direction?: "up" | "down" | "left" | "right" | "none";
+    className?: string;
+}
+
+const { delay = 0, direction = "up", className = "" } = Astro.props;
+
+const directionClasses = {
+    up: "translate-y-10",
+    down: "-translate-y-10",
+    left: "translate-x-10",
+    right: "-translate-x-10",
+    none: "",
+};
+---
+
+<div
+    class:list={[
+        "motion-reveal opacity-0 scale-[0.95] transition-all duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)]",
+        directionClasses[direction],
+        className,
+    ]}
+    data-delay={delay}
+>
+    <slot />
+</div>
+
+<noscript>
+    <style>
+        .motion-reveal {
+            opacity: 1 !important;
+            scale: 1 !important;
+            transform: none !important;
+            transition: none !important;
+        }
+    </style>
+</noscript>
+
+<script>
+    /**
+     * Optimized Animation Handler
+     * Uses a dual-observer pattern for performance and memory efficiency.
+     */
+    let prepareObserver: IntersectionObserver | null = null;
+    let revealObserver: IntersectionObserver | null = null;
+
+    function initMotionReveal() {
+        const revealElements = document.querySelectorAll(".motion-reveal");
+        if (revealElements.length === 0) return;
+
+        // Disconnect existing observers to prevent duplication on View Transitions
+        prepareObserver?.disconnect();
+        revealObserver?.disconnect();
+
+        /**
+         * 1. Prepare Observer: Adds 'will-change' to warm up GPU before entry.
+         * Activates at 200px distance from viewport.
+         */
+        prepareObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (
+                        entry.isIntersecting &&
+                        entry.target instanceof HTMLElement
+                    ) {
+                        entry.target.style.willChange = "opacity, transform";
+                        prepareObserver?.unobserve(entry.target);
+                    }
+                });
+            },
+            { rootMargin: "200px" },
+        );
+
+        /**
+         * 2. Reveal Observer: Triggers the actual reveal animation.
+         * Activates when element enters viewport.
+         */
+        revealObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (
+                        entry.isIntersecting &&
+                        entry.target instanceof HTMLElement
+                    ) {
+                        const el = entry.target;
+                        const delay =
+                            parseFloat(el.dataset.delay || "0") * 1000;
+
+                        setTimeout(() => {
+                            // Reveal animation
+                            el.classList.remove(
+                                "opacity-0",
+                                "scale-[0.95]",
+                                "translate-y-10",
+                                "-translate-y-10",
+                                "translate-x-10",
+                                "-translate-x-10",
+                            );
+                            el.classList.add(
+                                "opacity-100",
+                                "scale-100",
+                                "translate-y-0",
+                                "translate-x-0",
+                            );
+
+                            // Cleanup will-change after animation to free GPU memory
+                            const onTransitionEnd = () => {
+                                el.style.willChange = "auto";
+                                el.removeEventListener(
+                                    "transitionend",
+                                    onTransitionEnd,
+                                );
+                            };
+                            el.addEventListener(
+                                "transitionend",
+                                onTransitionEnd,
+                            );
+                        }, delay);
+
+                        revealObserver?.unobserve(el);
+                    }
+                });
+            },
+            { threshold: 0.1, rootMargin: "0px" },
+        );
+
+        // Observe all selected elements
+        revealElements.forEach((el) => {
+            // Only observe if not already revealed (supports View Transitions/Persisted State)
+            if (el.classList.contains("opacity-0")) {
+                prepareObserver?.observe(el);
+                revealObserver?.observe(el);
+            } else {
+                // If it's already shown (e.g. back button), ensure it stays shown
+                (el as HTMLElement).style.willChange = "auto";
+            }
+        });
+    }
+
+    // Initialize on load and on View Transition navigation
+    document.addEventListener("astro:page-load", initMotionReveal);
+
+    // Fallback for initial load if page-load is delayed
+    if (
+        document.readyState === "complete" ||
+        document.readyState === "interactive"
+    ) {
+        initMotionReveal();
+    }
+</script>

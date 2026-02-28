@@ -1,0 +1,46 @@
+---
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="404 - Halaman Tidak Ditemukan | Adam Daniam">
+    <section
+        class="min-h-screen flex flex-col items-center justify-center px-4"
+    >
+        <div class="text-center max-w-xl">
+            <p
+                class="font-mono text-xs uppercase tracking-widest text-gray-500 mb-6"
+            >
+                Error 404
+            </p>
+            <h1
+                class="font-display text-7xl md:text-9xl font-bold tracking-tighter mb-6"
+            >
+                404
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-500 font-light mb-12">
+                Halaman yang kamu cari tidak ditemukan.
+            </p>
+            <a
+                href="/"
+                class="inline-flex items-center px-8 py-4 bg-black text-white text-sm font-medium uppercase tracking-wide hover:bg-gray-800 transition-colors duration-300"
+            >
+                Kembali ke Home
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="ml-2 size-4"
+                >
+                    <path d="M5 12h14"></path>
+                    <path d="m12 5 7 7-7 7"></path>
+                </svg>
+            </a>
+        </div>
+    </section>
+</Layout>

@@ -1,0 +1,264 @@
+---
+
+---
+
+<div
+    id="mobile-dock"
+    class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] md:hidden"
+>
+    <nav
+        role="tablist"
+        aria-label="Mobile Navigation"
+        class="flex items-center gap-1 p-2 bg-white/80 backdrop-blur-xl border border-black/5 rounded-none shadow-[0_8px_32px_rgba(0,0,0,0.08)]"
+    >
+        <button
+            id="tab-home"
+            role="tab"
+            aria-selected="true"
+            aria-controls="mobile-section-home"
+            data-target="home"
+            class="dock-item relative flex flex-col items-center justify-center w-14 h-14 rounded-none transition-all duration-300 active:scale-95 group active"
+            aria-label="Home"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="w-6 h-6 transition-colors group-[.active]:text-black text-gray-400"
+                ><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+                ></path><polyline points="9 22 9 12 15 12 15 22"
+                ></polyline></svg
+            >
+            <span
+                class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-black rounded-full opacity-0 group-[.active]:opacity-100 transition-opacity"
+            ></span>
+        </button>
+
+        <button
+            id="tab-about"
+            role="tab"
+            aria-selected="false"
+            aria-controls="mobile-section-about"
+            data-target="about"
+            class="dock-item relative flex flex-col items-center justify-center w-14 h-14 rounded-none transition-all duration-300 active:scale-95 group"
+            aria-label="About"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="w-6 h-6 transition-colors group-[.active]:text-black text-gray-400"
+                ><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"
+                ></path><circle cx="12" cy="7" r="4"></circle></svg
+            >
+            <span
+                class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-black rounded-full opacity-0 group-[.active]:opacity-100 transition-opacity"
+            ></span>
+        </button>
+
+        <button
+            id="tab-projects"
+            role="tab"
+            aria-selected="false"
+            aria-controls="mobile-section-projects"
+            data-target="projects"
+            class="dock-item relative flex flex-col items-center justify-center w-14 h-14 rounded-none transition-all duration-300 active:scale-95 group"
+            aria-label="Projects"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="w-6 h-6 transition-colors group-[.active]:text-black text-gray-400"
+                ><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect
+                    width="7"
+                    height="7"
+                    x="14"
+                    y="3"
+                    rx="1"></rect><rect
+                    width="7"
+                    height="7"
+                    x="14"
+                    y="14"
+                    rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"
+                ></rect></svg
+            >
+            <span
+                class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-black rounded-full opacity-0 group-[.active]:opacity-100 transition-opacity"
+            ></span>
+        </button>
+
+        <button
+            id="tab-contact"
+            role="tab"
+            aria-selected="false"
+            aria-controls="mobile-section-contact"
+            data-target="contact"
+            tabindex="-1"
+            class="dock-item relative flex flex-col items-center justify-center w-14 h-14 rounded-none transition-all duration-300 active:scale-95 group"
+            aria-label="Contact"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="w-6 h-6 transition-colors group-[.active]:text-black text-gray-400"
+                ><rect width="20" height="16" x="2" y="4" rx="2"></rect><path
+                    d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg
+            >
+            <span
+                class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-black rounded-full opacity-0 group-[.active]:opacity-100 transition-opacity"
+            ></span>
+        </button>
+    </nav>
+</div>
+
+<script>
+    const dockItems = document.querySelectorAll(
+        ".dock-item",
+    ) as NodeListOf<HTMLElement>;
+    const sections = ["home", "about", "projects", "contact"];
+
+    /**
+     * @param {string} target
+     */
+    function switchSection(target: string) {
+        // Update Dock UI, ARIA states and Roving Tabindex
+        dockItems.forEach((item) => {
+            const isTarget = item.dataset.target === target;
+            item.classList.toggle("active", isTarget);
+            item.setAttribute("aria-selected", isTarget.toString());
+            item.setAttribute("tabindex", isTarget ? "0" : "-1");
+        });
+
+        // Update Visibility on mobile
+        if (window.innerWidth < 768) {
+            sections.forEach((secId) => {
+                const element = document.getElementById(
+                    `mobile-section-${secId}`,
+                );
+                if (element) {
+                    if (secId === target) {
+                        element.hidden = false;
+                        element.setAttribute("aria-hidden", "false");
+                        element.classList.add(
+                            "animate-in",
+                            "fade-in",
+                            "duration-500",
+                        );
+                    } else {
+                        element.hidden = true;
+                        element.setAttribute("aria-hidden", "true");
+                        element.classList.remove(
+                            "animate-in",
+                            "fade-in",
+                            "duration-500",
+                        );
+                    }
+                }
+            });
+            window.scrollTo({ top: 0, behavior: "auto" });
+        } else {
+            const element = document.getElementById(target);
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+    }
+
+    dockItems.forEach((item) => {
+        item.addEventListener("click", () => {
+            const target = item.dataset.target;
+            if (target) switchSection(target);
+        });
+
+        // Handle Arrow Key Navigation for Tablist
+        item.addEventListener("keydown", (e) => {
+            if (!(e instanceof KeyboardEvent)) return;
+            const items = Array.from(dockItems);
+            const index = items.indexOf(item);
+
+            let nextIndex = -1;
+            if (e.key === "ArrowRight") {
+                nextIndex = (index + 1) % items.length;
+            } else if (e.key === "ArrowLeft") {
+                nextIndex = (index - 1 + items.length) % items.length;
+            }
+
+            if (nextIndex !== -1) {
+                e.preventDefault();
+                const nextItem = items[nextIndex];
+                if (nextItem instanceof HTMLElement) {
+                    nextItem.focus();
+                    nextItem.click(); // Selection follows focus
+                }
+            }
+        });
+    });
+
+    // Handle initial state and resize
+    function handleView() {
+        if (window.innerWidth < 768) {
+            const activeItem = document.querySelector(
+                ".dock-item.active",
+            ) as HTMLElement | null;
+            const target = activeItem?.dataset.target || "home";
+
+            sections.forEach((secId) => {
+                const element = document.getElementById(
+                    `mobile-section-${secId}`,
+                );
+                if (element) {
+                    const isTarget = secId === target;
+                    element.hidden = !isTarget;
+                    element.setAttribute("aria-hidden", (!isTarget).toString());
+                }
+            });
+
+            // Sync initial ARIA state and tabindex
+            dockItems.forEach((item) => {
+                const isTarget = item.dataset.target === target;
+                item.setAttribute("aria-selected", isTarget.toString());
+                item.setAttribute("tabindex", isTarget ? "0" : "-1");
+            });
+        } else {
+            sections.forEach((secId) => {
+                const element = document.getElementById(
+                    `mobile-section-${secId}`,
+                );
+                if (element) {
+                    element.hidden = false;
+                    element.setAttribute("aria-hidden", "false");
+                }
+            });
+        }
+    }
+
+    window.addEventListener("resize", handleView);
+    document.addEventListener("astro:page-load", handleView);
+    handleView();
+</script>

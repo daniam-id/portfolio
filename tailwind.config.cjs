@@ -5,43 +5,48 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ["var(--font-geist-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
-                mono: ["var(--font-geist-mono)", "ui-monospace", "monospace"],
+                sans: ["Inter", "sans-serif"],
+                display: ["Space Grotesk", "monospace"],
+                mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
             },
             colors: {
-                border: "var(--border)",
-                input: "var(--input)",
-                ring: "var(--ring)",
-                background: "var(--background)",
-                foreground: "var(--foreground)",
+                border: "hsl(var(--border))",
+                input: "hsl(var(--input))",
+                ring: "hsl(var(--ring))",
+                background: "hsl(var(--background))",
+                foreground: "hsl(var(--foreground))",
                 primary: {
-                    DEFAULT: "var(--primary)",
-                    foreground: "var(--primary-foreground)",
+                    DEFAULT: "hsl(var(--primary))",
+                    foreground: "hsl(var(--primary-foreground))",
                 },
                 secondary: {
-                    DEFAULT: "var(--secondary)",
-                    foreground: "var(--secondary-foreground)",
+                    DEFAULT: "hsl(var(--secondary))",
+                    foreground: "hsl(var(--secondary-foreground))",
                 },
                 destructive: {
-                    DEFAULT: "var(--destructive)",
-                    foreground: "var(--destructive-foreground)",
+                    DEFAULT: "hsl(var(--destructive))",
+                    foreground: "hsl(var(--destructive-foreground))",
                 },
                 muted: {
-                    DEFAULT: "var(--muted)",
-                    foreground: "var(--muted-foreground)",
+                    DEFAULT: "hsl(var(--muted))",
+                    foreground: "hsl(var(--muted-foreground))",
                 },
                 accent: {
-                    DEFAULT: "var(--accent)",
-                    foreground: "var(--accent-foreground)",
+                    DEFAULT: "hsl(var(--accent))",
+                    foreground: "hsl(var(--accent-foreground))",
                 },
                 popover: {
-                    DEFAULT: "var(--popover)",
-                    foreground: "var(--popover-foreground)",
+                    DEFAULT: "hsl(var(--popover))",
+                    foreground: "hsl(var(--popover-foreground))",
                 },
                 card: {
-                    DEFAULT: "var(--card)",
-                    foreground: "var(--card-foreground)",
+                    DEFAULT: "hsl(var(--card))",
+                    foreground: "hsl(var(--card-foreground))",
                 },
+                // Factory AI Colors
+                'factory-black': '#0a0a0a',
+                'factory-gray': '#f4f4f4',
+                'factory-accent': '#ffffff',
             },
             borderRadius: {
                 lg: "var(--radius)",
@@ -49,16 +54,33 @@ module.exports = {
                 sm: "calc(var(--radius) - 4px)",
             },
             keyframes: {
-                shimmer: {
-                    "100%": {
-                        transform: "translateX(100%)",
-                    },
+                "accordion-down": {
+                    from: { height: "0" },
+                    to: { height: "var(--radix-accordion-content-height)" },
+                },
+                "accordion-up": {
+                    from: { height: "var(--radix-accordion-content-height)" },
+                    to: { height: "0" },
+                },
+                "spin-slow": {
+                    from: { transform: "rotate(0deg)" },
+                    to: { transform: "rotate(360deg)" },
+                },
+                "spin-slow-reverse": {
+                    from: { transform: "rotate(0deg)" },
+                    to: { transform: "rotate(-360deg)" },
                 },
             },
             animation: {
-                shimmer: "shimmer 2s infinite",
+                "accordion-down": "accordion-down 0.2s ease-out",
+                "accordion-up": "accordion-up 0.2s ease-out",
+                "spin-slow": "spin-slow 12s linear infinite",
+                "spin-slow-reverse": "spin-slow-reverse 12s linear infinite",
             },
         },
     },
-    plugins: [require("tailwindcss-animate")],
+    plugins: [
+        require("tailwindcss-animate"),
+        require('@tailwindcss/typography'),
+    ],
 }

@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio Website
 
-## Getting Started
+Personal portfolio website built with Astro 5 and Tailwind CSS, focused on fast static delivery, accessible navigation, and animated section reveals.
 
-First, run the development server:
+## Quick Start
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Development server runs on `http://localhost:4321`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Available Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run dev          # Start local development server
+npm run lint         # Run ESLint
+npm run lint:astro   # Run Astro checks
+npm run validate:nav # Validate site nav anchors
+npm run build        # Full pipeline: lint:astro -> validate:nav -> astro build -> test:links
+npm run preview      # Preview production build locally
+```
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Framework**: [Astro](https://astro.build) 5.x
+- **Styling**: [Tailwind CSS](https://tailwindcss.com) 3.x + CSS variables
+- **Validation**: `@astrojs/check`, `linkinator`, custom nav validation script
+- **Interactivity**: Astro components with inline scripts (no React runtime dependency)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Features
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Responsive single-page portfolio sections (hero, about, services, projects, tech stack, contact)
+- Custom `MotionWrapper` reveal system with dual `IntersectionObserver` strategy
+- Mobile dock and desktop navigation with accessibility-focused behavior
+- Build-time validation for Astro checks, internal anchors, and broken links
 
-## Deploy on Vercel
+## Project Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```text
+src/
+├── components/sections/    # Page sections (.astro)
+├── components/ui/          # Reusable UI components (.astro)
+├── config/site.ts          # Site copy and navigation config
+├── layouts/Layout.astro    # Base layout and SEO shell
+├── pages/index.astro       # Home page composition
+└── styles/globals.css      # Global styles and design tokens
+scripts/
+└── validate-nav.mjs        # Internal anchor consistency check
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Customization
+
+- Update content and nav links in `src/config/site.ts`
+- Update section composition order in `src/pages/index.astro`
+- Add/adjust global design tokens in `src/styles/globals.css`
+
+## Documentation
+
+- [Technical Overview](./docs/technical_overview.md)
+- [AI Agent Guide](./AGENTS.md)
+- [Change History](./PROGRESS.md)
+
+## Deployment
+
+Any static hosting platform works (for example Vercel, Netlify, or Cloudflare Pages):
+
+1. Run `npm run build`
+2. Deploy the generated `dist/` directory
+
+## License
+
+MIT
