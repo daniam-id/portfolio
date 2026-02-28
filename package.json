@@ -14,7 +14,9 @@
     "lint": "npx eslint ."
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.0",
     "@astrojs/tailwind": "^6.0.2",
+    "@tailwindcss/typography": "^0.5.19",
     "astro": "^5.16.15",
     "autoprefixer": "^10.4.23",
     "class-variance-authority": "^0.7.1",

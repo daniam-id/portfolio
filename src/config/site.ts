@@ -40,9 +40,9 @@ export const siteConfig: SiteConfig = {
     navLinks: [
         { name: "About", href: "#about" },
         { name: "Services", href: "#services" },
-        { name: "Projects", href: "#projects" },
-        { name: "Tech", href: "#tech" },
-        { name: "Blog", href: "#" },
+        { name: "Projects", href: "/#projects" },
+        { name: "Tech", href: "/#tech" },
+        { name: "Blog", href: "/blog/" },
     ],
     socialLinks: [
         { name: "GitHub", href: "https://github.com/daniam-id/" },
