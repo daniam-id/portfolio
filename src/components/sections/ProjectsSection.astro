@@ -1,11 +1,14 @@
 ---
+import { Image } from "astro:assets";
+import fraditartImage from "@/assets/projects/fraditart.png";
+
 const projects = [
     {
         title: "FRADITART COMMISSION",
         category: "CLIENT WORK",
         description:
             "Conversion-focused landing page for an independent character illustrator. Features commission pricing, queue status tracking, and terms of service. Built with modern React patterns and optimized for performance.",
-        image: "/projects/fraditart.png",
+        image: fraditartImage,
         tags: ["React", "Vite", "Landing Page"],
         year: "2026",
         status: "Live",
@@ -41,7 +44,9 @@ const projects = [
                     <a
                         href={projects[0]?.link ?? "#contact"}
                         target={projects[0]?.link ? "_blank" : undefined}
-                        rel={projects[0]?.link ? "noopener noreferrer" : undefined}
+                        rel={projects[0]?.link
+                            ? "noopener noreferrer"
+                            : undefined}
                         class="inline-flex items-center text-sm font-medium uppercase tracking-wide hover:text-gray-500 transition-colors"
                     >
                         View Project
@@ -77,13 +82,14 @@ const projects = [
                             >
                                 <div class="flex flex-col md:flex-row gap-8 items-start">
                                     <div class="w-full md:w-1/3 aspect-video overflow-hidden grayscale contrast-125 group-hover:grayscale-0 transition-all duration-500">
-                                        <img
+                                        <Image
                                             src={project.image}
                                             alt={project.title}
                                             width={800}
                                             height={450}
                                             class="w-full h-full object-cover"
                                             loading="lazy"
+                                            format="webp"
                                         />
                                     </div>
                                     <div class="flex-1">

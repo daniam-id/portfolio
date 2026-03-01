@@ -55,7 +55,16 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 			content="https://adamdev.web.id/og-image.png"
 		/>
 
-		<!-- Google Fonts: Space Grotesk & Inter -->
+		<!--
+			Non-blocking font loading strategy:
+			1. preconnect → establish early connection to Google Fonts CDN
+			2. preload as="style" → start downloading CSS without blocking render
+			3. media="print" + onload → load stylesheet asynchronously; switches to "all" once loaded
+			4. <noscript> → fallback for no-JS clients that loads fonts normally
+			DO NOT remove or reorder these links without understanding the render-blocking implications.
+			NOTE: astro check may report ts(6133) hint on the onload attribute — this is a false-positive
+			from the TS checker parsing the HTML string as TypeScript. It is safe to ignore.
+		-->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
@@ -64,9 +73,22 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
 		/>
 		<link
+			id="google-fonts"
 			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
 			rel="stylesheet"
+			media="print"
 		/>
+		<script is:inline>
+			document.getElementById("google-fonts").onload = function () {
+				this.media = "all";
+			};
+		</script>
+		<noscript>
+			<link
+				href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+				rel="stylesheet"
+			/>
+		</noscript>
 
 		<!-- Performance Optimizations -->
 		<link rel="preconnect" href="https://cdn.jsdelivr.net" />
@@ -115,9 +137,9 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 				]
 			}
 		</script>
-		<!-- React Grab -->
-		<script>
-			if (import.meta.env.DEV) {
+		<!-- Dev-only tool: load react-grab overlay in development only. -->
+		<script is:inline>
+			if (import.meta.env && import.meta.env.DEV) {
 				import("react-grab");
 			}
 		</script>
