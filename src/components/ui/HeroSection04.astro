@@ -32,7 +32,7 @@ const description = siteConfig.hero.description;
                 <span class="w-2 h-2 bg-black rounded-full animate-pulse"
                 ></span>
                 <span
-                    class="font-mono text-xs uppercase tracking-widest text-gray-500"
+                    class="font-mono text-xs uppercase tracking-widest text-gray-600"
                 >
                     System Online — {siteConfig.year}
                 </span>
@@ -43,7 +43,7 @@ const description = siteConfig.hero.description;
             >
                 {siteConfig.hero.headline}
                 <br />
-                <span class="text-gray-400">{siteConfig.hero.subheadline}</span>
+                <span class="text-gray-600">{siteConfig.hero.subheadline}</span>
             </h1>
 
             <div
@@ -62,7 +62,9 @@ const description = siteConfig.hero.description;
 
     <div class="relative z-10 border-t border-black/10 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-            <div class="grid grid-cols-2 md:grid-cols-3 divide-x divide-black/10">
+            <div
+                class="grid grid-cols-2 md:grid-cols-3 divide-x divide-black/10"
+            >
                 {
                     stats.map((stat, i) => (
                         <div
@@ -72,7 +74,7 @@ const description = siteConfig.hero.description;
                                 i === 2 ? "pr-0" : "pr-6",
                             ]}
                         >
-                            <p class="font-mono text-xs text-gray-500 uppercase tracking-wider mb-2">
+                            <p class="font-mono text-xs text-gray-600 uppercase tracking-wider mb-2">
                                 {stat.label}
                             </p>
                             <p class="font-display text-3xl md:text-4xl font-medium">
