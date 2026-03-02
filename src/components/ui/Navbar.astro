@@ -2,19 +2,22 @@
 import { siteConfig } from "@/config/site";
 import { Image } from "astro:assets";
 import logoImage from "@/assets/images/logo.png";
+import ThemeToggle from "@/components/ui/ThemeToggle.astro";
 
 const navLinks = siteConfig.navLinks;
 ---
 
 <header
     id="main-header"
-    class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-black/10 bg-white/90 backdrop-blur-md"
+    class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-black/10 dark:border-white/10 bg-white/90 dark:bg-neutral-950/90 backdrop-blur-md"
 >
     <div
-        class="w-full flex justify-between items-stretch h-16 md:h-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-x border-black/10"
+        class="w-full flex justify-between items-stretch h-16 md:h-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-x border-black/10 dark:border-white/10"
     >
         {/* Logo Section */}
-        <div class="flex items-center pr-6 md:pr-8 border-r border-black/10">
+        <div
+            class="flex items-center pr-6 md:pr-8 border-r border-black/10 dark:border-white/10"
+        >
             <a
                 href="/"
                 class="flex items-center gap-2"
@@ -23,7 +26,7 @@ const navLinks = siteConfig.navLinks;
                 <Image
                     src={logoImage}
                     alt={siteConfig.name}
-                    class="h-8 w-auto object-contain"
+                    class="h-8 w-auto object-contain dark:invert"
                     width={120}
                     height={32}
                     priority
@@ -32,21 +35,29 @@ const navLinks = siteConfig.navLinks;
             </a>
         </div>
 
+        {/* Theme Toggle */}
+        <div
+            class="flex items-center px-4 border-r border-black/10 dark:border-white/10"
+        >
+            <ThemeToggle />
+        </div>
+
         {/* Desktop Nav */}
         <nav class="hidden md:flex items-stretch ml-auto">
             {
                 navLinks.map((link) => (
                     <a
                         href={link.href}
-                        class="flex items-center px-8 border-l border-black/10 text-sm font-medium uppercase tracking-wide hover:bg-black hover:text-white transition-colors duration-200 group relative overflow-hidden"
+                        class="flex items-center px-8 border-l border-black/10 dark:border-white/10 text-sm font-medium uppercase tracking-wide hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors duration-200 group relative overflow-hidden"
                     >
                         <span class="relative z-10">{link.name}</span>
                     </a>
                 ))
             }
+
             <a
                 href="/#contact"
-                class="flex items-center px-8 border-l border-black/10 bg-black text-white text-sm font-medium uppercase tracking-wide hover:bg-gray-100 hover:text-black transition-colors duration-300"
+                class="flex items-center px-8 border-l border-black/10 dark:border-white/10 bg-black dark:bg-white text-white dark:text-black text-sm font-medium uppercase tracking-wide hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors duration-300"
             >
                 Let's Talk
                 <svg
@@ -69,7 +80,7 @@ const navLinks = siteConfig.navLinks;
         {/* Mobile Menu Button - Hidden when Dock is used */}
         <button
             id="mobile-menu-open"
-            class="hidden items-center justify-center px-6 border-l border-black/10 ml-auto"
+            class="hidden items-center justify-center px-6 border-l border-black/10 dark:border-white/10 ml-auto"
             aria-label="Open Menu"
             aria-expanded="false"
             aria-controls="mobile-menu-overlay"
@@ -100,14 +111,16 @@ const navLinks = siteConfig.navLinks;
 {/* Mobile Menu Overlay */}
 <div
     id="mobile-menu-overlay"
-    class="fixed inset-0 z-[60] bg-white flex flex-col translate-y-[-100%] transition-transform duration-500 [transition-timing-function:cubic-bezier(0.19,1,0.22,1)]"
+    class="fixed inset-0 z-[60] bg-white dark:bg-neutral-950 flex flex-col translate-y-[-100%] transition-transform duration-500 [transition-timing-function:cubic-bezier(0.19,1,0.22,1)]"
     aria-hidden="true"
     role="dialog"
     aria-modal="true"
     aria-labelledby="mobile-menu-title"
     inert
 >
-    <div class="flex justify-between items-center p-6 border-b border-black/10">
+    <div
+        class="flex justify-between items-center p-6 border-b border-black/10 dark:border-white/10"
+    >
         <span
             id="mobile-menu-title"
             class="font-display font-bold text-2xl uppercase">Menu</span
@@ -137,7 +150,7 @@ const navLinks = siteConfig.navLinks;
             navLinks.map((link) => (
                 <a
                     href={link.href}
-                    class="mobile-nav-link font-display text-4xl md:text-6xl font-light uppercase hover:text-gray-500 transition-colors"
+                    class="mobile-nav-link font-display text-4xl md:text-6xl font-light uppercase hover:text-gray-500 dark:hover:text-gray-400 transition-colors"
                 >
                     {link.name}
                 </a>
@@ -145,7 +158,7 @@ const navLinks = siteConfig.navLinks;
         }
         <a
             href="/#contact"
-            class="mobile-nav-link mt-8 inline-flex items-center justify-between w-full py-4 border-t border-b border-black font-display text-xl uppercase font-bold"
+            class="mobile-nav-link mt-8 inline-flex items-center justify-between w-full py-4 border-t border-b border-black dark:border-white font-display text-xl uppercase font-bold"
         >
             Let's Talk
             <svg

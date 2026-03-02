@@ -26,17 +26,19 @@ const services = [
 ---
 
 <section
-    class="py-24 md:py-32 border-b border-black/10 scroll-mt-24"
+    class="py-24 md:py-32 border-b border-black/10 dark:border-white/10 scroll-mt-24"
     id="services"
 >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
             <div class="md:col-span-3">
                 <div
-                    class="flex items-baseline space-x-3 font-display text-xs md:text-sm font-medium tracking-widest text-gray-600 uppercase mb-8 md:mb-0"
+                    class="flex items-baseline space-x-3 font-display text-xs md:text-sm font-medium tracking-widest text-gray-600 dark:text-gray-400 uppercase mb-8 md:mb-0"
                 >
-                    <span class="text-black">02</span>
-                    <span class="h-px w-8 bg-black/20 inline-block"></span>
+                    <span class="text-black dark:text-white">02</span>
+                    <span
+                        class="h-px w-8 bg-black/20 dark:bg-white/20 inline-block"
+                    ></span>
                     <span>Services</span>
                 </div>
             </div>
@@ -47,7 +49,9 @@ const services = [
                     >
                         What I Build
                     </h2>
-                    <p class="text-xl text-gray-800 font-light leading-relaxed">
+                    <p
+                        class="text-xl text-gray-800 dark:text-gray-300 font-light leading-relaxed"
+                    >
                         User-first solutions with a focus on usability,
                         automation, and real-world impact.
                     </p>
@@ -56,8 +60,8 @@ const services = [
                 <div class="grid md:grid-cols-2 gap-12">
                     {
                         services.map((service, index) => (
-                            <div class="group relative border border-black/10 p-8 hover:border-black transition-colors duration-300">
-                                <div class="mb-6 inline-flex p-3 border border-black/10 rounded-none group-hover:bg-black group-hover:text-white transition-colors">
+                            <div class="group relative border border-black/10 dark:border-white/10 p-8 hover:border-black dark:hover:border-white transition-colors duration-300">
+                                <div class="mb-6 inline-flex p-3 border border-black/10 dark:border-white/10 rounded-none group-hover:bg-black group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black transition-colors">
                                     {index === 0 ? (
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -106,14 +110,14 @@ const services = [
                                 <h3 class="font-display text-2xl font-medium mb-4 uppercase">
                                     {service.title}
                                 </h3>
-                                <p class="text-gray-600 mb-8 leading-relaxed font-light">
+                                <p class="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed font-light">
                                     {service.description}
                                 </p>
 
                                 <ul class="space-y-3 mb-8">
                                     {service.features.map((feature) => (
-                                        <li class="flex items-center gap-2 text-sm font-mono uppercase tracking-wide text-gray-600">
-                                            <div class="size-1 bg-black" />
+                                        <li class="flex items-center gap-2 text-sm font-mono uppercase tracking-wide text-gray-600 dark:text-gray-400">
+                                            <div class="size-1 bg-black dark:bg-white" />
                                             {feature}
                                         </li>
                                     ))}
@@ -121,7 +125,7 @@ const services = [
 
                                 <a
                                     href="#contact"
-                                    class="inline-flex items-center text-sm font-medium uppercase tracking-wide group-hover:text-gray-500 transition-colors"
+                                    class="inline-flex items-center text-sm font-medium uppercase tracking-wide group-hover:text-gray-500 dark:group-hover:text-gray-400 transition-colors"
                                 >
                                     Learn More
                                     <svg

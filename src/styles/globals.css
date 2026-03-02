@@ -77,8 +77,6 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    background-color: #ffffff;
-    color: #0a0a0a;
   }
 
   /* Custom Scrollbar */
@@ -86,14 +84,24 @@
     width: 8px;
   }
   ::-webkit-scrollbar-track {
-    background: #fff;
+    background: hsl(var(--background));
   }
   ::-webkit-scrollbar-thumb {
-    background: #000;
+    background: hsl(var(--foreground));
   }
 
   ::selection {
-    background-color: #000;
-    color: #fff;
+    background-color: hsl(var(--foreground));
+    color: hsl(var(--background));
   }
+}
+
+/* Smooth theme transition — added/removed by toggle script */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition: background-color 300ms ease, color 200ms ease,
+              border-color 200ms ease, box-shadow 200ms ease !important;
+  transition-delay: 0s !important;
 }
