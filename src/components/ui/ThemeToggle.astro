@@ -4,6 +4,7 @@
     id="theme-toggle"
     type="button"
     aria-label="Toggle dark mode"
+    aria-pressed="false"
     class="flex items-center justify-center w-10 h-10 transition-colors duration-200 hover:bg-black/5 dark:hover:bg-white/10"
 >
     <!-- Sun icon (visible in dark mode) -->
@@ -43,17 +44,44 @@
 </button>
 
 <script>
-    // @ts-nocheck
     const toggle = document.getElementById("theme-toggle");
     const root = document.documentElement;
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    /** @type {MediaQueryList | null} */
+    const mediaQuery = (() => {
+        try {
+            return matchMedia("(prefers-color-scheme: dark)");
+        } catch {
+            return null;
+        }
+    })();
 
-    function readStoredTheme() {
+    function safeGetTheme() {
         try {
             return localStorage.getItem("theme");
         } catch {
             return null;
         }
+    }
+
+    function safeSetDarkTheme() {
+        try {
+            localStorage.setItem("theme", "dark");
+        } catch {
+            // Storage unavailable (private mode, etc.) - fail silently
+        }
+    }
+
+    function safeSetLightTheme() {
+        try {
+            localStorage.setItem("theme", "light");
+        } catch {
+            // Storage unavailable (private mode, etc.) - fail silently
+        }
+    }
+
+    function hasExplicitUserTheme() {
+        const theme = safeGetTheme();
+        return theme === "dark" || theme === "light";
     }
 
     function applyDarkThemeClass() {
@@ -64,32 +92,14 @@
         root.classList.remove("dark");
     }
 
-    function persistDarkUserTheme() {
-        try {
-            localStorage.setItem("theme", "dark");
-        } catch {
-            // Storage unavailable (private mode, etc.) - fail silently
-        }
+    function syncAriaPressed() {
+        const isDark = root.classList.contains("dark");
+        toggle?.setAttribute("aria-pressed", String(isDark));
     }
-
-    function persistLightUserTheme() {
-        try {
-            localStorage.setItem("theme", "light");
-        } catch {
-            // Storage unavailable (private mode, etc.) - fail silently
-        }
-    }
-
-    function hasExplicitUserTheme() {
-        return readStoredTheme() !== null;
-    }
-
-    let transitionTimeout = null;
 
     toggle?.addEventListener("click", () => {
-        // Clear any pending transition cleanup to prevent timer pile-up
-        if (transitionTimeout) {
-            clearTimeout(transitionTimeout);
+        if (root.dataset.themeTransitionTimeoutId) {
+            clearTimeout(Number(root.dataset.themeTransitionTimeoutId));
         }
 
         root.classList.add("theme-transition");
@@ -97,31 +107,39 @@
         try {
             if (root.classList.contains("dark")) {
                 applyLightThemeClass();
-                persistLightUserTheme();
+                safeSetLightTheme();
             } else {
                 applyDarkThemeClass();
-                persistDarkUserTheme();
+                safeSetDarkTheme();
             }
         } finally {
-            // Always clean up transition class, even if persistence fails
-            transitionTimeout = setTimeout(() => {
+            const nextTimeoutId = setTimeout(() => {
                 root.classList.remove("theme-transition");
-                transitionTimeout = null;
+                delete root.dataset.themeTransitionTimeoutId;
             }, 350);
+            root.dataset.themeTransitionTimeoutId = String(nextTimeoutId);
         }
+
+        syncAriaPressed();
     });
 
     function handleSystemThemeChange() {
-        if (!hasExplicitUserTheme()) {
-            if (mediaQuery.matches) {
-                applyDarkThemeClass();
-            } else {
-                applyLightThemeClass();
-            }
+        if (hasExplicitUserTheme() || !mediaQuery) {
+            return;
         }
+
+        if (mediaQuery.matches) {
+            applyDarkThemeClass();
+        } else {
+            applyLightThemeClass();
+        }
+
+        syncAriaPressed();
     }
 
-    if (root.dataset.themeListenerMounted !== "true") {
+    syncAriaPressed();
+
+    if (root.dataset.themeListenerMounted !== "true" && mediaQuery) {
         root.dataset.themeListenerMounted = "true";
         mediaQuery.addEventListener("change", handleSystemThemeChange);
     }

@@ -23,29 +23,31 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 		<meta charset="UTF-8" />
 		<!-- Anti-FOUC: Apply theme before render -->
 		<script is:inline>
-			(function () {
-				var theme = "light";
-				// Safe localStorage read with try/catch
-				try {
-					var stored = localStorage.getItem("theme");
-					if (stored === "dark" || stored === "light") {
-						theme = stored;
-					}
-				} catch (e) {
-					// localStorage unavailable - fall through to system preference
-				}
-				// Fallback to system preference if no valid stored value
-				if (theme === "light") {
+				(function () {
+					var theme = "light";
+					var hasStoredPreference = false;
+					// Safe localStorage read with try/catch
 					try {
-						var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-						if (prefersDark) theme = "dark";
+						var stored = localStorage.getItem("theme");
+						if (stored === "dark" || stored === "light") {
+							theme = stored;
+							hasStoredPreference = true;
+						}
 					} catch (e) {
-						// matchMedia unavailable - keep default "light"
+						// localStorage unavailable - fall through to system preference
 					}
-				}
-				// Explicit set/unset (not add-only)
-				document.documentElement.classList.toggle("dark", theme === "dark");
-			})();
+					// Fallback to system preference only if no valid stored value
+					if (!hasStoredPreference) {
+						try {
+							var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+							if (prefersDark) theme = "dark";
+						} catch (e) {
+							// matchMedia unavailable - keep default "light"
+						}
+					}
+					// Explicit set/unset (not add-only)
+					document.documentElement.classList.toggle("dark", theme === "dark");
+				})();
 		</script>
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
