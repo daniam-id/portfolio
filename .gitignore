@@ -44,3 +44,5 @@ PROGRESS.md
 docs/
 GEMINI.md
 install.log
+playwright-report/
+test-results/
