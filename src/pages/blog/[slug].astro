@@ -13,11 +13,27 @@ type Props = CollectionEntry<"blog">;
 
 const post = Astro.props;
 const { Content } = await post.render();
+const siteUrl = "https://adamdev.web.id";
+const personId = "https://adamdev.web.id/#person";
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
+const blogPostingStructuredData = {
+    "@type": "Article",
+    headline: post.data.title,
+    description: post.data.description,
+    datePublished: post.data.pubDate.toISOString(),
+    ...(post.data.updatedDate
+        ? { dateModified: post.data.updatedDate.toISOString() }
+        : {}),
+    author: { "@id": personId },
+    publisher: { "@id": personId },
+    mainEntityOfPage: canonicalUrl,
+};
 ---
 
 <Layout
-    title={`${post.data.title} | Adam Daniam Blog`}
+    title={`${post.data.title} | Blog Adam Daniam`}
     description={post.data.description}
+    structuredDataEntries={[blogPostingStructuredData]}
 >
     <article
         class="min-h-screen pt-32 pb-24 md:pt-48 border-b border-black/10 dark:border-white/10"
