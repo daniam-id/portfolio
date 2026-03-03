@@ -12,8 +12,7 @@
     "build": "npm run lint:astro && npm run validate:nav && astro build && npm run validate:seo && npm run test:links",
     "preview": "astro preview",
     "astro": "astro",
-    "lint": "npx eslint .",
-    "test:e2e": "playwright test"
+    "lint": "npx eslint ."
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.0",
@@ -28,7 +27,6 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@playwright/test": "^1.55.0",
     "@astrojs/check": "^0.9.6",
     "@types/node": "^20",
     "eslint": "^9",

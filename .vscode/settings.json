@@ -1,7 +1,0 @@
-{
-    "css.customData": [],
-    "css.validate": false,
-    "tailwindCSS.includeLanguages": {
-        "astro": "html"
-    }
-}

@@ -39,21 +39,6 @@ Dev server runs at `http://localhost:4321`.
 | `npm run lint:astro` | Astro type checks |
 | `npm run validate:nav` | Verify internal anchor consistency |
 | `npm run preview` | Preview production build |
-| `npm run test:e2e` | Run Playwright theme regression tests |
-
-## E2E Testing
-
-Run Playwright tests with:
-
-```bash
-npm run test:e2e
-```
-
-On a fresh environment, install Chromium for Playwright once:
-
-```bash
-npx playwright install chromium
-```
 
 ## How It Works
 

@@ -21,9 +21,7 @@ yarn-error.log*
 Thumbs.db
 
 # IDEs and editors
-.vscode/*
-!.vscode/settings.json
-!.vscode/extensions.json
+.vscode/
 .idea/
 *.suo
 *.ntvs*
@@ -46,3 +44,5 @@ GEMINI.md
 install.log
 playwright-report/
 test-results/
+e2e/
+playwright.config.ts
