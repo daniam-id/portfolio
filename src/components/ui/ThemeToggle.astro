@@ -1,11 +1,10 @@
 ---
-
 ---
-
 <button
     id="theme-toggle"
     type="button"
     aria-label="Toggle dark mode"
+    aria-pressed="false"
     class="flex items-center justify-center w-10 h-10 transition-colors duration-200 hover:bg-black/5 dark:hover:bg-white/10"
 >
     <!-- Sun icon (visible in dark mode) -->
@@ -47,10 +46,42 @@
 <script>
     const toggle = document.getElementById("theme-toggle");
     const root = document.documentElement;
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    /** @type {MediaQueryList | null} */
+    const mediaQuery = (() => {
+        try {
+            return matchMedia("(prefers-color-scheme: dark)");
+        } catch {
+            return null;
+        }
+    })();
 
-    function readStoredTheme() {
-        return localStorage.getItem("theme");
+    function safeGetTheme() {
+        try {
+            return localStorage.getItem("theme");
+        } catch {
+            return null;
+        }
+    }
+
+    function safeSetDarkTheme() {
+        try {
+            localStorage.setItem("theme", "dark");
+        } catch {
+            // Storage unavailable (private mode, etc.) - fail silently
+        }
+    }
+
+    function safeSetLightTheme() {
+        try {
+            localStorage.setItem("theme", "light");
+        } catch {
+            // Storage unavailable (private mode, etc.) - fail silently
+        }
+    }
+
+    function hasExplicitUserTheme() {
+        const theme = safeGetTheme();
+        return theme === "dark" || theme === "light" || root.dataset.userThemeExplicit === "true";
     }
 
     function applyDarkThemeClass() {
@@ -61,44 +92,56 @@
         root.classList.remove("dark");
     }
 
-    function persistDarkUserTheme() {
-        localStorage.setItem("theme", "dark");
-    }
-
-    function persistLightUserTheme() {
-        localStorage.setItem("theme", "light");
-    }
-
-    function hasExplicitUserTheme() {
-        return readStoredTheme() !== null;
+    function syncAriaPressed() {
+        const isDark = root.classList.contains("dark");
+        toggle?.setAttribute("aria-pressed", String(isDark));
     }
 
     toggle?.addEventListener("click", () => {
-        root.classList.add("theme-transition");
-        if (root.classList.contains("dark")) {
-            applyLightThemeClass();
-            persistLightUserTheme();
-        } else {
-            applyDarkThemeClass();
-            persistDarkUserTheme();
+        if (root.dataset.themeTransitionTimeoutId) {
+            clearTimeout(Number(root.dataset.themeTransitionTimeoutId));
         }
 
-        setTimeout(() => {
-            root.classList.remove("theme-transition");
-        }, 350);
+        root.classList.add("theme-transition");
+
+        try {
+            if (root.classList.contains("dark")) {
+                applyLightThemeClass();
+                safeSetLightTheme();
+            } else {
+                applyDarkThemeClass();
+                safeSetDarkTheme();
+            }
+
+            root.dataset.userThemeExplicit = "true";
+        } finally {
+            const nextTimeoutId = setTimeout(() => {
+                root.classList.remove("theme-transition");
+                delete root.dataset.themeTransitionTimeoutId;
+            }, 350);
+            root.dataset.themeTransitionTimeoutId = String(nextTimeoutId);
+        }
+
+        syncAriaPressed();
     });
 
     function handleSystemThemeChange() {
-        if (!hasExplicitUserTheme()) {
-            if (mediaQuery.matches) {
-                applyDarkThemeClass();
-            } else {
-                applyLightThemeClass();
-            }
+        if (hasExplicitUserTheme() || !mediaQuery) {
+            return;
         }
+
+        if (mediaQuery.matches) {
+            applyDarkThemeClass();
+        } else {
+            applyLightThemeClass();
+        }
+
+        syncAriaPressed();
     }
 
-    if (root.dataset.themeListenerMounted !== "true") {
+    syncAriaPressed();
+
+    if (root.dataset.themeListenerMounted !== "true" && mediaQuery) {
         root.dataset.themeListenerMounted = "true";
         mediaQuery.addEventListener("change", handleSystemThemeChange);
     }

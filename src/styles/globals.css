@@ -102,5 +102,5 @@
 html.theme-transition :where(body, header, main, section, footer, nav, a, button, #mobile-dock) {
   transition: background-color 300ms ease,
     color 200ms ease,
-    border-color 200ms ease !important;
+    border-color 200ms ease;
 }
