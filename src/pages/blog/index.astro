@@ -14,16 +14,18 @@ const posts = (await getCollection("blog")).sort(
     title="Blog | Adam Daniam - Web & AI Developer"
     description="Tulisan dan panduan seputar Web Development, Integrasi AI, dan Teknologi Desktop Modern."
 >
-    <section class="min-h-screen pt-32 pb-24 md:pt-48 border-b border-black/10">
+    <section
+        class="min-h-screen pt-32 pb-24 md:pt-48 border-b border-black/10 dark:border-white/10"
+    >
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <div class="mb-16 md:mb-24">
                 <h1
-                    class="font-display text-6xl md:text-8xl lg:text-9xl font-semibold tracking-tighter leading-[0.9] text-black mb-6 uppercase"
+                    class="font-display text-6xl md:text-8xl lg:text-9xl font-semibold tracking-tighter leading-[0.9] text-black dark:text-white mb-6 uppercase"
                 >
                     Blog &<br />Insights
                 </h1>
                 <p
-                    class="text-xl md:text-2xl text-gray-600 font-light max-w-2xl"
+                    class="text-xl md:text-2xl text-gray-600 dark:text-gray-400 font-light max-w-2xl"
                 >
                     Tulisan tentang Web Development modern, eksplorasi AI, dan
                     praktik terbaik rekayasa perangkat lunak.
@@ -35,9 +37,9 @@ const posts = (await getCollection("blog")).sort(
                     posts.map((post: BlogPost) => (
                         <a
                             href={`/blog/${post.slug}/`}
-                            class="group flex flex-col border border-black/10 hover:border-black transition-colors duration-300"
+                            class="group flex flex-col border border-black/10 dark:border-white/10 hover:border-black dark:hover:border-white transition-colors duration-300"
                         >
-                            <div class="aspect-[16/10] overflow-hidden bg-gray-100 border-b border-black/10">
+                            <div class="aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-neutral-800 border-b border-black/10 dark:border-white/10">
                                 {post.data.heroImage && (
                                     <img
                                         src={post.data.heroImage}
@@ -48,7 +50,7 @@ const posts = (await getCollection("blog")).sort(
                                 )}
                             </div>
                             <div class="p-8 flex flex-col flex-grow">
-                                <div class="font-mono text-xs uppercase tracking-widest text-gray-600 mb-4">
+                                <div class="font-mono text-xs uppercase tracking-widest text-gray-600 dark:text-gray-400 mb-4">
                                     <time
                                         datetime={post.data.pubDate.toISOString()}
                                     >
@@ -62,13 +64,13 @@ const posts = (await getCollection("blog")).sort(
                                         )}
                                     </time>
                                 </div>
-                                <h2 class="font-display text-2xl font-medium mb-4 uppercase leading-tight group-hover:text-gray-600 transition-colors">
+                                <h2 class="font-display text-2xl font-medium mb-4 uppercase leading-tight group-hover:text-gray-600 dark:group-hover:text-gray-400 transition-colors">
                                     {post.data.title}
                                 </h2>
-                                <p class="text-gray-600 font-light leading-relaxed mb-8 flex-grow">
+                                <p class="text-gray-600 dark:text-gray-400 font-light leading-relaxed mb-8 flex-grow">
                                     {post.data.description}
                                 </p>
-                                <div class="inline-flex items-center text-sm font-medium uppercase tracking-wide group-hover:text-gray-500 transition-colors mt-auto pt-4 border-t border-black/10">
+                                <div class="inline-flex items-center text-sm font-medium uppercase tracking-wide group-hover:text-gray-500 dark:group-hover:text-gray-400 transition-colors mt-auto pt-4 border-t border-black/10 dark:border-white/10">
                                     Baca Artikel
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"

@@ -1,73 +1,86 @@
-# Portfolio Website
+# Adam Daniam — Portfolio
 
-Personal portfolio website built with Astro 5 and Tailwind CSS, focused on fast static delivery, accessible navigation, and animated section reveals.
+Personal portfolio website showcasing web development and AI integration work. Built with Astro for zero-JS static delivery, featuring animated section reveals, accessible navigation, and a blog powered by Content Collections.
 
-## Quick Start
+**Live:** [adamdev.web.id](https://adamdev.web.id)
+
+## What This Does
+
+A single-page portfolio with six content sections (hero, about, services, projects, tech stack, contact) plus a blog. It ships zero client-side framework runtime — all interactivity runs through inline scripts. The design follows a monochrome industrial aesthetic with sharp corners and `border-black/10` separators.
+
+## Tech Stack
+
+| Technology | Role |
+|---|---|
+| **Astro 5.x** | Static site framework — zero JS by default |
+| **Tailwind CSS 3.x** | Utility-first styling with CSS variable tokens |
+| **TypeScript** | Type-safe frontmatter and config |
+| **Content Collections** | Type-safe Markdown blog content |
+| **@astrojs/sitemap** | Automated sitemap generation |
+
+## Getting Started
 
 ```bash
+git clone https://github.com/daniam-id/portfolio.git
+cd portfolio
 npm install
 npm run dev
 ```
 
-Development server runs on `http://localhost:4321`.
+Dev server runs at `http://localhost:4321`.
 
 ## Available Scripts
 
-```bash
-npm run dev          # Start local development server
-npm run lint         # Run ESLint
-npm run lint:astro   # Run Astro checks
-npm run validate:nav # Validate site nav anchors
-npm run build        # Full pipeline: lint:astro -> validate:nav -> astro build -> test:links
-npm run preview      # Preview production build locally
-```
+| Command | Purpose |
+|---|---|
+| `npm run dev` | Start local dev server |
+| `npm run build` | Full pipeline: type check → nav validation → build → link check |
+| `npm run lint` | Run ESLint |
+| `npm run lint:astro` | Astro type checks |
+| `npm run validate:nav` | Verify internal anchor consistency |
+| `npm run preview` | Preview production build |
 
-## Tech Stack
+## How It Works
 
-- **Framework**: [Astro](https://astro.build) 5.x
-- **Styling**: [Tailwind CSS](https://tailwindcss.com) 3.x + CSS variables
-- **Validation**: `@astrojs/check`, `linkinator`, custom nav validation script
-- **Interactivity**: Astro components with inline scripts (no React runtime dependency)
+**MotionWrapper** — A custom reveal animation system using dual `IntersectionObserver` strategy (appear + reset) with CSS transitions. Wraps each page section for staggered entrance effects. Includes a no-JS fallback that shows content immediately.
 
-## Features
+**MobileDock** — Bottom navigation dock for mobile using the ARIA Tablist pattern. Keyboard-navigable with arrow keys, syncs `aria-selected` state, and manages `inert` on background content.
 
-- Responsive single-page portfolio sections (hero, about, services, projects, tech stack, contact)
-- Custom `MotionWrapper` reveal system with dual `IntersectionObserver` strategy
-- Mobile dock and desktop navigation with accessibility-focused behavior
-- Build-time validation for Astro checks, internal anchors, and broken links
+**Navbar** — Fixed header with scroll detection, mobile overlay menu, focus trapping, and `inert`-based background isolation when the menu is open.
+
+**Non-blocking fonts** — Google Fonts loaded via `media="print" + onload` swap pattern with `<noscript>` fallback. CSP tradeoff documented in `Layout.astro`.
+
+**Build validation** — Every `npm run build` runs four checks in sequence: Astro type checking, internal anchor validation (custom `validate-nav.mjs`), static build, and broken link detection via linkinator.
 
 ## Project Structure
 
-```text
+```
 src/
-├── components/sections/    # Page sections (.astro)
-├── components/ui/          # Reusable UI components (.astro)
-├── config/site.ts          # Site copy and navigation config
-├── layouts/Layout.astro    # Base layout and SEO shell
-├── pages/index.astro       # Home page composition
+├── components/sections/    # Page sections (About, Services, Projects, etc.)
+├── components/ui/          # Reusable UI (Navbar, MobileDock, MotionWrapper, Button)
+├── config/site.ts          # Single source of truth for all site content
+├── content/blog/           # Markdown blog posts (Content Collections)
+├── layouts/Layout.astro    # Base layout with SEO, fonts, JSON-LD
+├── pages/
+│   ├── index.astro         # Home page composition
+│   └── blog/               # Blog listing + dynamic post pages
 └── styles/globals.css      # Global styles and design tokens
 scripts/
-└── validate-nav.mjs        # Internal anchor consistency check
+└── validate-nav.mjs        # Internal anchor consistency checker
 ```
-
-## Customization
-
-- Update content and nav links in `src/config/site.ts`
-- Update section composition order in `src/pages/index.astro`
-- Add/adjust global design tokens in `src/styles/globals.css`
 
 ## Documentation
 
-- [Technical Overview](./docs/technical_overview.md)
-- [AI Agent Guide](./AGENTS.md)
-- [Change History](./PROGRESS.md)
+- [Technical Overview](./docs/technical_overview.md) — Architecture, data flow, build pipeline
+- [AI Agent Guide](./AGENTS.md) — Context for AI-assisted development
+- [Change History](./PROGRESS.md) — All AI-assisted changes tracked
 
-## Deployment
+## Future Ideas
 
-Any static hosting platform works (for example Vercel, Netlify, or Cloudflare Pages):
-
-1. Run `npm run build`
-2. Deploy the generated `dist/` directory
+- [ ] Add real project content to replace placeholders
+- [ ] Dark mode toggle
+- [ ] Self-hosted fonts for stricter CSP compliance
+- [ ] Blog RSS feed
 
 ## License
 
