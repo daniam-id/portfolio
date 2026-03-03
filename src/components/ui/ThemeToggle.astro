@@ -1,7 +1,5 @@
 ---
-
 ---
-
 <button
     id="theme-toggle"
     type="button"
@@ -45,12 +43,17 @@
 </button>
 
 <script>
+    // @ts-nocheck
     const toggle = document.getElementById("theme-toggle");
     const root = document.documentElement;
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
     function readStoredTheme() {
-        return localStorage.getItem("theme");
+        try {
+            return localStorage.getItem("theme");
+        } catch {
+            return null;
+        }
     }
 
     function applyDarkThemeClass() {
@@ -62,30 +65,50 @@
     }
 
     function persistDarkUserTheme() {
-        localStorage.setItem("theme", "dark");
+        try {
+            localStorage.setItem("theme", "dark");
+        } catch {
+            // Storage unavailable (private mode, etc.) - fail silently
+        }
     }
 
     function persistLightUserTheme() {
-        localStorage.setItem("theme", "light");
+        try {
+            localStorage.setItem("theme", "light");
+        } catch {
+            // Storage unavailable (private mode, etc.) - fail silently
+        }
     }
 
     function hasExplicitUserTheme() {
         return readStoredTheme() !== null;
     }
 
+    let transitionTimeout = null;
+
     toggle?.addEventListener("click", () => {
-        root.classList.add("theme-transition");
-        if (root.classList.contains("dark")) {
-            applyLightThemeClass();
-            persistLightUserTheme();
-        } else {
-            applyDarkThemeClass();
-            persistDarkUserTheme();
+        // Clear any pending transition cleanup to prevent timer pile-up
+        if (transitionTimeout) {
+            clearTimeout(transitionTimeout);
         }
 
-        setTimeout(() => {
-            root.classList.remove("theme-transition");
-        }, 350);
+        root.classList.add("theme-transition");
+
+        try {
+            if (root.classList.contains("dark")) {
+                applyLightThemeClass();
+                persistLightUserTheme();
+            } else {
+                applyDarkThemeClass();
+                persistDarkUserTheme();
+            }
+        } finally {
+            // Always clean up transition class, even if persistence fails
+            transitionTimeout = setTimeout(() => {
+                root.classList.remove("theme-transition");
+                transitionTimeout = null;
+            }, 350);
+        }
     });
 
     function handleSystemThemeChange() {

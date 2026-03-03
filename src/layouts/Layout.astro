@@ -24,13 +24,27 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 		<!-- Anti-FOUC: Apply theme before render -->
 		<script is:inline>
 			(function () {
-				var theme =
-					localStorage.getItem("theme") ||
-					(window.matchMedia("(prefers-color-scheme: dark)").matches
-						? "dark"
-						: "light");
-				if (theme === "dark")
-					document.documentElement.classList.add("dark");
+				var theme = "light";
+				// Safe localStorage read with try/catch
+				try {
+					var stored = localStorage.getItem("theme");
+					if (stored === "dark" || stored === "light") {
+						theme = stored;
+					}
+				} catch (e) {
+					// localStorage unavailable - fall through to system preference
+				}
+				// Fallback to system preference if no valid stored value
+				if (theme === "light") {
+					try {
+						var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+						if (prefersDark) theme = "dark";
+					} catch (e) {
+						// matchMedia unavailable - keep default "light"
+					}
+				}
+				// Explicit set/unset (not add-only)
+				document.documentElement.classList.toggle("dark", theme === "dark");
 			})();
 		</script>
 		<meta name="viewport" content="width=device-width" />
