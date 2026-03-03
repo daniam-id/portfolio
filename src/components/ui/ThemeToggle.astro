@@ -81,7 +81,7 @@
 
     function hasExplicitUserTheme() {
         const theme = safeGetTheme();
-        return theme === "dark" || theme === "light";
+        return theme === "dark" || theme === "light" || root.dataset.userThemeExplicit === "true";
     }
 
     function applyDarkThemeClass() {
@@ -112,6 +112,8 @@
                 applyDarkThemeClass();
                 safeSetDarkTheme();
             }
+
+            root.dataset.userThemeExplicit = "true";
         } finally {
             const nextTimeoutId = setTimeout(() => {
                 root.classList.remove("theme-transition");

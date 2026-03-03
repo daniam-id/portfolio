@@ -58,6 +58,29 @@ test("toggle updates class and aria state", async ({ page }) => {
   await expect(toggle).toHaveAttribute("aria-pressed", "false");
 });
 
+test("explicit user toggle remains sticky when storage write fails", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "dark" });
+
+  await page.addInitScript(() => {
+    localStorage.removeItem("theme");
+    localStorage.setItem = () => {
+      throw new Error("blocked storage");
+    };
+  });
+
+  await page.goto("/");
+  const toggle = page.getByRole("button", { name: /toggle dark mode/i });
+
+  await expect(page.locator("html")).toHaveClass(/dark/);
+
+  await toggle.click();
+  await expect(page.locator("html")).not.toHaveClass(/dark/);
+
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.emulateMedia({ colorScheme: "dark" });
+  await expect(page.locator("html")).not.toHaveClass(/dark/);
+});
+
 test("theme transition class is cleaned up", async ({ page }) => {
   await page.goto("/");
   const toggle = page.getByRole("button", { name: /toggle dark mode/i });
