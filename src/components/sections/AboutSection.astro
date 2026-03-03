@@ -4,17 +4,19 @@ import aboutImage from "@/assets/images/about-portrait.jpg";
 ---
 
 <section
-    class="py-24 md:py-32 border-b border-black/10 scroll-mt-24"
+    class="py-24 md:py-32 border-b border-black/10 dark:border-white/10 scroll-mt-24"
     id="about"
 >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
             <div class="md:col-span-3">
                 <div
-                    class="flex items-baseline space-x-3 font-display text-xs md:text-sm font-medium tracking-widest text-gray-600 uppercase mb-8 md:mb-0"
+                    class="flex items-baseline space-x-3 font-display text-xs md:text-sm font-medium tracking-widest text-gray-600 dark:text-gray-400 uppercase mb-8 md:mb-0"
                 >
-                    <span class="text-black">01</span>
-                    <span class="h-px w-8 bg-black/20 inline-block"></span>
+                    <span class="text-black dark:text-white">01</span>
+                    <span
+                        class="h-px w-8 bg-black/20 dark:bg-white/20 inline-block"
+                    ></span>
                     <span>About</span>
                 </div>
             </div>
@@ -45,7 +47,7 @@ import aboutImage from "@/assets/images/about-portrait.jpg";
                         </h2>
 
                         <div
-                            class="space-y-6 text-lg md:text-xl font-light leading-relaxed text-gray-800"
+                            class="space-y-6 text-lg md:text-xl font-light leading-relaxed text-gray-800 dark:text-gray-300"
                         >
                             <p>
                                 Hi, I'm a <strong>Web Developer</strong> and <strong
@@ -68,14 +70,14 @@ import aboutImage from "@/assets/images/about-portrait.jpg";
                         </div>
 
                         <div
-                            class="grid grid-cols-2 gap-8 pt-8 border-t border-black/10"
+                            class="grid grid-cols-2 gap-8 pt-8 border-t border-black/10 dark:border-white/10"
                         >
                             <div>
                                 <h3 class="font-display text-4xl font-medium">
                                     1+
                                 </h3>
                                 <p
-                                    class="font-mono text-xs tracking-widest uppercase mt-2 text-gray-500"
+                                    class="font-mono text-xs tracking-widest uppercase mt-2 text-gray-500 dark:text-gray-400"
                                 >
                                     Years Experience
                                 </p>
@@ -85,7 +87,7 @@ import aboutImage from "@/assets/images/about-portrait.jpg";
                                     2+
                                 </h3>
                                 <p
-                                    class="font-mono text-xs tracking-widest uppercase mt-2 text-gray-500"
+                                    class="font-mono text-xs tracking-widest uppercase mt-2 text-gray-500 dark:text-gray-400"
                                 >
                                     Projects
                                 </p>

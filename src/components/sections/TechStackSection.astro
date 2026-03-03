@@ -82,15 +82,20 @@ const stack = [
 ];
 ---
 
-<section class="py-24 md:py-32 border-b border-black/10 scroll-mt-24" id="tech">
+<section
+    class="py-24 md:py-32 border-b border-black/10 dark:border-white/10 scroll-mt-24"
+    id="tech"
+>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
             <div class="md:col-span-3">
                 <div
-                    class="flex items-baseline space-x-3 font-display text-xs md:text-sm font-medium tracking-widest text-gray-600 uppercase mb-8 md:mb-0"
+                    class="flex items-baseline space-x-3 font-display text-xs md:text-sm font-medium tracking-widest text-gray-600 dark:text-gray-400 uppercase mb-8 md:mb-0"
                 >
-                    <span class="text-black">04</span>
-                    <span class="h-px w-8 bg-black/20 inline-block"></span>
+                    <span class="text-black dark:text-white">04</span>
+                    <span
+                        class="h-px w-8 bg-black/20 dark:bg-white/20 inline-block"
+                    ></span>
                     <span>Tech</span>
                 </div>
             </div>
@@ -101,7 +106,9 @@ const stack = [
                     >
                         Tech Stack
                     </h2>
-                    <p class="text-xl text-gray-800 font-light leading-relaxed">
+                    <p
+                        class="text-xl text-gray-800 dark:text-gray-300 font-light leading-relaxed"
+                    >
                         The tools and technologies I use to bring ideas to life.
                         Always learning and exploring new things.
                     </p>
@@ -111,7 +118,7 @@ const stack = [
                     {
                         stack.map((group) => (
                             <div>
-                                <h3 class="font-mono text-xs uppercase text-gray-600 mb-6 tracking-widest border-b border-black/10 pb-2">
+                                <h3 class="font-mono text-xs uppercase text-gray-600 dark:text-gray-400 mb-6 tracking-widest border-b border-black/10 dark:border-white/10 pb-2">
                                     {group.category}
                                 </h3>
                                 <div class="space-y-4">
@@ -122,10 +129,10 @@ const stack = [
                                                 alt={item.name}
                                                 width={20}
                                                 height={20}
-                                                class="size-5 grayscale group-hover:grayscale-0 transition-all"
+                                                class="size-5 grayscale group-hover:grayscale-0 dark:invert transition-all"
                                                 loading="lazy"
                                             />
-                                            <span class="font-display text-lg font-light text-gray-800 group-hover:text-black transition-colors">
+                                            <span class="font-display text-lg font-light text-gray-800 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white transition-colors">
                                                 {item.name}
                                             </span>
                                         </div>
