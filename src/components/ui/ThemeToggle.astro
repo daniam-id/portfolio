@@ -45,44 +45,61 @@
 </button>
 
 <script>
-    /** @type {HTMLButtonElement | null} */
     const toggle = document.getElementById("theme-toggle");
+    const root = document.documentElement;
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
-    function getThemePreference() {
-        const stored = localStorage.getItem("theme");
-        if (stored) return stored;
-        return window.matchMedia("(prefers-color-scheme: dark)").matches
-            ? "dark"
-            : "light";
+    function readStoredTheme() {
+        return localStorage.getItem("theme");
     }
 
-    function applyTheme(theme: string) {
-        document.documentElement.classList.toggle("dark", theme === "dark");
-        localStorage.setItem("theme", theme);
+    function applyDarkThemeClass() {
+        root.classList.add("dark");
     }
 
-    // Apply on load (backup — primary handled by anti-FOUC in <head>)
-    applyTheme(getThemePreference());
+    function applyLightThemeClass() {
+        root.classList.remove("dark");
+    }
 
-    // Toggle handler with smooth transition
+    function persistDarkUserTheme() {
+        localStorage.setItem("theme", "dark");
+    }
+
+    function persistLightUserTheme() {
+        localStorage.setItem("theme", "light");
+    }
+
+    function hasExplicitUserTheme() {
+        return readStoredTheme() !== null;
+    }
+
     toggle?.addEventListener("click", () => {
-        document.documentElement.classList.add("theme-transition");
-        const current = document.documentElement.classList.contains("dark")
-            ? "dark"
-            : "light";
-        applyTheme(current === "dark" ? "light" : "dark");
-        // Remove transition class after animation completes
+        root.classList.add("theme-transition");
+        if (root.classList.contains("dark")) {
+            applyLightThemeClass();
+            persistLightUserTheme();
+        } else {
+            applyDarkThemeClass();
+            persistDarkUserTheme();
+        }
+
         setTimeout(() => {
-            document.documentElement.classList.remove("theme-transition");
+            root.classList.remove("theme-transition");
         }, 350);
     });
 
-    // Listen for system preference changes
-    window
-        .matchMedia("(prefers-color-scheme: dark)")
-        .addEventListener("change", (e) => {
-            if (!localStorage.getItem("theme")) {
-                applyTheme(e.matches ? "dark" : "light");
+    function handleSystemThemeChange() {
+        if (!hasExplicitUserTheme()) {
+            if (mediaQuery.matches) {
+                applyDarkThemeClass();
+            } else {
+                applyLightThemeClass();
             }
-        });
+        }
+    }
+
+    if (root.dataset.themeListenerMounted !== "true") {
+        root.dataset.themeListenerMounted = "true";
+        mediaQuery.addEventListener("change", handleSystemThemeChange);
+    }
 </script>

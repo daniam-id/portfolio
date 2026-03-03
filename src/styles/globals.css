@@ -83,9 +83,11 @@
   ::-webkit-scrollbar {
     width: 8px;
   }
+
   ::-webkit-scrollbar-track {
     background: hsl(var(--background));
   }
+
   ::-webkit-scrollbar-thumb {
     background: hsl(var(--foreground));
   }
@@ -97,11 +99,8 @@
 }
 
 /* Smooth theme transition — added/removed by toggle script */
-html.theme-transition,
-html.theme-transition *,
-html.theme-transition *::before,
-html.theme-transition *::after {
-  transition: background-color 300ms ease, color 200ms ease,
-              border-color 200ms ease, box-shadow 200ms ease !important;
-  transition-delay: 0s !important;
+html.theme-transition :where(body, header, main, section, footer, nav, a, button, #mobile-dock) {
+  transition: background-color 300ms ease,
+    color 200ms ease,
+    border-color 200ms ease !important;
 }
