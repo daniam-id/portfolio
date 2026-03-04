@@ -8,7 +8,22 @@ const rootDir = path.resolve(__dirname, '..');
 
 const DIST_DIR = path.join(rootDir, 'dist');
 const INDEX_HTML_PATH = path.join(DIST_DIR, 'index.html');
-const BLOG_POST_PATH = path.join(DIST_DIR, 'blog/integrasi-ai-ke-website/index.html');
+
+/**
+ * Dynamically discover all blog post directories
+ * @returns {string[]} Array of blog post index.html paths
+ */
+function getBlogPostPaths() {
+    const blogDir = path.join(DIST_DIR, 'blog');
+    if (!fs.existsSync(blogDir)) return [];
+    
+    return fs.readdirSync(blogDir)
+        .filter(name => {
+            const fullPath = path.join(blogDir, name);
+            return fs.statSync(fullPath).isDirectory();
+        })
+        .map(name => path.join(blogDir, name, 'index.html'));
+}
 
 /**
  * Validates Technical SEO markers in built HTML files
@@ -32,6 +47,16 @@ function validateSEO() {
 
     const indexContent = fs.readFileSync(INDEX_HTML_PATH, 'utf-8');
 
+    // Helper to extract JSON-LD
+    const getJsonLd = (htmlContent) => {
+        const matches = [...htmlContent.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
+        return matches.map(match => {
+            try { return JSON.parse(match[1]); } catch (e) { return null; }
+        }).filter(Boolean);
+    };
+
+    const indexJsonLds = getJsonLd(indexContent);
+
     // 2. Validate canonical URL (required)
     console.log('📍 Checking canonical URL...');
     const canonicalRegex = /<link rel="canonical" href="https:\/\/adamdev\.web\.id\/"?>/;
@@ -52,8 +77,22 @@ function validateSEO() {
 
     // 4. Validate JSON-LD @id for Person (required - must be ABSOLUTE)
     console.log('📍 Checking Person @id in JSON-LD...');
-    const personIdRegex = /"@id":\s*"https:\/\/adamdev\.web\.id\/#person"/;
-    if (!personIdRegex.test(indexContent)) {
+    let personGraph = null;
+
+    // SEO setup usually uses @graph or just an object
+    for (const jsonLd of indexJsonLds) {
+        if (jsonLd['@graph']) {
+            personGraph = jsonLd['@graph'].find(item => item['@type'] === 'Person');
+            if (personGraph) break;
+        } else if (jsonLd['@type'] === 'Person') {
+            personGraph = jsonLd;
+            break;
+        }
+    }
+
+    if (!personGraph) {
+        errors.push('Person entity not found in JSON-LD');
+    } else if (personGraph['@id'] !== 'https://adamdev.web.id/#person') {
         errors.push('Missing absolute @id (https://adamdev.web.id/#person) for Person in JSON-LD');
     } else {
         console.log('   ✅ Person @id (absolute) present in JSON-LD');
@@ -63,8 +102,11 @@ function validateSEO() {
     console.log('📍 Checking alternateName in JSON-LD...');
     const requiredNames = ['Adam', 'Dani', 'Apta', 'Mahendra'];
     const missingNames = [];
+
+    const alternateNames = personGraph ? (Array.isArray(personGraph.alternateName) ? personGraph.alternateName : [personGraph.alternateName]) : [];
+
     for (const name of requiredNames) {
-        if (indexContent.includes(name)) {
+        if (alternateNames.includes(name)) {
             console.log(`   ✅ Found "${name}" in JSON-LD`);
         } else {
             missingNames.push(name);
@@ -74,27 +116,46 @@ function validateSEO() {
         errors.push(`Missing names in alternateName: ${missingNames.join(', ')}`);
     }
 
-    // 6. Validate blog post SEO (required)
+    // 6. Validate ALL blog posts SEO (required)
     console.log('📍 Checking blog post SEO...');
-    if (!fs.existsSync(BLOG_POST_PATH)) {
-        errors.push('Blog post not found: dist/blog/integrasi-ai-ke-website/index.html');
+    const blogPostPaths = getBlogPostPaths();
+    
+    if (blogPostPaths.length === 0) {
+        errors.push('No blog posts found in dist/blog/');
     } else {
-        const blogContent = fs.readFileSync(BLOG_POST_PATH, 'utf-8');
+        console.log(`   Found ${blogPostPaths.length} blog post(s) to validate`);
+        
+        for (const blogPostPath of blogPostPaths) {
+            const slug = path.basename(path.dirname(blogPostPath));
+            console.log(`   📄 Validating: ${slug}`);
+            
+            const blogContent = fs.readFileSync(blogPostPath, 'utf-8');
+            const blogJsonLds = getJsonLd(blogContent);
 
-        // Check for Article type
-        const articleTypeRegex = /"@type":\s*"Article"/;
-        if (!articleTypeRegex.test(blogContent)) {
-            errors.push('Missing "@type": "Article" in blog post JSON-LD');
-        } else {
-            console.log('   ✅ Article @type present');
-        }
+            let articleGraph = null;
+            for (const jsonLd of blogJsonLds) {
+                if (jsonLd['@graph']) {
+                    articleGraph = jsonLd['@graph'].find(item => item['@type'] === 'Article');
+                    if (articleGraph) break;
+                } else if (jsonLd['@type'] === 'Article') {
+                    articleGraph = jsonLd;
+                    break;
+                }
+            }
 
-        // Check for datePublished
-        const datePublishedRegex = /"datePublished"/;
-        if (!datePublishedRegex.test(blogContent)) {
-            errors.push('Missing "datePublished" in blog post JSON-LD');
-        } else {
-            console.log('   ✅ datePublished present');
+            // Check for Article type
+            if (!articleGraph) {
+                errors.push(`Missing "@type": "Article" in blog post: ${slug}`);
+            } else {
+                console.log(`      ✅ Article @type present`);
+
+                // Check for datePublished
+                if (!articleGraph.datePublished) {
+                    errors.push(`Missing "datePublished" in blog post: ${slug}`);
+                } else {
+                    console.log(`      ✅ datePublished present`);
+                }
+            }
         }
     }
 
