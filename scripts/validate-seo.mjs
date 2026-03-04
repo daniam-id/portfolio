@@ -62,7 +62,7 @@ function validateSEO() {
     // 5. Validate alternateName (required - all 4 names must be present)
     console.log('📍 Checking alternateName in JSON-LD...');
     const requiredNames = ['Adam', 'Dani', 'Apta', 'Mahendra'];
-    let missingNames = [];
+    const missingNames = [];
     for (const name of requiredNames) {
         if (indexContent.includes(name)) {
             console.log(`   ✅ Found "${name}" in JSON-LD`);

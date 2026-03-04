@@ -1,5 +1,7 @@
 ---
+
 ---
+
 <button
     id="theme-toggle"
     type="button"
@@ -46,7 +48,6 @@
 <script>
     const toggle = document.getElementById("theme-toggle");
     const root = document.documentElement;
-    /** @type {MediaQueryList | null} */
     const mediaQuery = (() => {
         try {
             return matchMedia("(prefers-color-scheme: dark)");
@@ -81,7 +82,11 @@
 
     function hasExplicitUserTheme() {
         const theme = safeGetTheme();
-        return theme === "dark" || theme === "light" || root.dataset.userThemeExplicit === "true";
+        return (
+            theme === "dark" ||
+            theme === "light" ||
+            root.dataset.userThemeExplicit === "true"
+        );
     }
 
     function applyDarkThemeClass() {

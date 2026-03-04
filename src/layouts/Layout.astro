@@ -73,31 +73,36 @@ const structuredData = {
 		<meta charset="UTF-8" />
 		<!-- Anti-FOUC: Apply theme before render -->
 		<script is:inline>
-				(function () {
-					var theme = "light";
-					var hasStoredPreference = false;
-					// Safe localStorage read with try/catch
+			(function () {
+				let theme = "light";
+				let hasStoredPreference = false;
+				// Safe localStorage read with try/catch
+				try {
+					const stored = localStorage.getItem("theme");
+					if (stored === "dark" || stored === "light") {
+						theme = stored;
+						hasStoredPreference = true;
+					}
+				} catch {
+					// localStorage unavailable - fall through to system preference
+				}
+				// Fallback to system preference only if no valid stored value
+				if (!hasStoredPreference) {
 					try {
-						var stored = localStorage.getItem("theme");
-						if (stored === "dark" || stored === "light") {
-							theme = stored;
-							hasStoredPreference = true;
-						}
-					} catch (e) {
-						// localStorage unavailable - fall through to system preference
+						const prefersDark = window.matchMedia(
+							"(prefers-color-scheme: dark)",
+						).matches;
+						if (prefersDark) theme = "dark";
+					} catch {
+						// matchMedia unavailable - keep default "light"
 					}
-					// Fallback to system preference only if no valid stored value
-					if (!hasStoredPreference) {
-						try {
-							var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-							if (prefersDark) theme = "dark";
-						} catch (e) {
-							// matchMedia unavailable - keep default "light"
-						}
-					}
-					// Explicit set/unset (not add-only)
-					document.documentElement.classList.toggle("dark", theme === "dark");
-				})();
+				}
+				// Explicit set/unset (not add-only)
+				document.documentElement.classList.toggle(
+					"dark",
+					theme === "dark",
+				);
+			})();
 		</script>
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -150,7 +155,7 @@ const structuredData = {
 			rel="stylesheet"
 			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
 			media="print"
-			onload="this.media='all'"
+			onload="this.setAttribute('media', 'all')"
 		/>
 		<noscript>
 			<link
@@ -162,6 +167,7 @@ const structuredData = {
 		<!-- Structured Data (JSON-LD) -->
 		<script
 			type="application/ld+json"
+			is:inline
 			set:html={JSON.stringify(structuredData)}
 		/>
 	</head>
